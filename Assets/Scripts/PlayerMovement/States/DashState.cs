@@ -7,7 +7,7 @@ namespace PlayerGameplay
         private float dashDuration;
         private float deltaTime;
 
-        private Vector3 inputDirection;
+        private Vector2 inputDirection;
 
         public DashState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine) 
         {
@@ -18,7 +18,7 @@ namespace PlayerGameplay
         {
             base.Enter();
             inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.z = Input.GetAxisRaw("Vertical");
+            inputDirection.y = Input.GetAxisRaw("Vertical");
         }
 
         public override void LogicUpdate()

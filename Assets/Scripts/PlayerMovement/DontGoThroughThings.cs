@@ -3,6 +3,7 @@
 
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class DontGoThroughThings : MonoBehaviour
 {
     // Careful when setting this to true - it might cause double

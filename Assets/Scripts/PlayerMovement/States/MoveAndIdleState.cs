@@ -4,7 +4,7 @@ namespace PlayerGameplay
 {
     public class MoveAndIdleState : State
     {
-        private Vector3 inputDirection;
+        private Vector2 inputDirection;
         private bool dash;
 
         public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine) { }
@@ -18,9 +18,8 @@ namespace PlayerGameplay
         public override void HandleInput()
         {
             base.HandleInput();
-            inputDirection = Vector3.zero;
             inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.z = Input.GetAxisRaw("Vertical");
+            inputDirection.y = Input.GetAxisRaw("Vertical");
 
             dash = Input.GetButtonDown("Dash");
         }

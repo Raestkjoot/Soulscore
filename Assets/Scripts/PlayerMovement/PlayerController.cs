@@ -4,18 +4,14 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour
     {
-        // Higher speeds can move us through objects (about 15+)
         [field: SerializeField] public float movementSpeed { get; private set; }
         [field: SerializeField] public float dashSpeed { get; private set; }
         [field: SerializeField] public float dashDuration { get; private set; }
-        // This is particularly going to be a problem for the dash
-        // TODO: Look into how to prevent this and how to know if we can dash over some dashable obstacle (dash all the way over or not at all)
-        // https://answers.unity.com/questions/55179/cheapest-way-to-catch-collisions-on-very-fast-movi.html
 
-        private Rigidbody _rigidbody => gameObject.GetComponent<Rigidbody>();
+        private Rigidbody2D _rigidbody => gameObject.GetComponent<Rigidbody2D>();
 
         public StateMachine stateMachine;
         public MoveAndIdleState moveAndIdleState;
@@ -24,9 +20,9 @@ namespace PlayerGameplay
         /// <summary>
         /// Move the player according to the inputDirection vector and speed
         /// </summary>
-        public void Move(Vector3 direction, float speed)
+        public void Move(Vector2 direction, float speed)
         {
-            _rigidbody.MovePosition(transform.position + direction.normalized * speed * Time.fixedDeltaTime);
+            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
         }
 
         #region Callbacks
