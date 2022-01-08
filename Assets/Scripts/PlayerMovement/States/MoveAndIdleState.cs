@@ -6,6 +6,7 @@ namespace PlayerGameplay
     {
         private Vector2 inputDirection;
         private bool dash;
+        private bool attack;
 
         public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine) { }
 
@@ -13,6 +14,7 @@ namespace PlayerGameplay
         {
             base.Enter();
             dash = false;
+            attack = false;
         }
 
         public override void HandleInput()
@@ -22,6 +24,7 @@ namespace PlayerGameplay
             inputDirection.y = Input.GetAxisRaw("Vertical");
 
             dash = Input.GetButtonDown("Dash");
+            attack = Input.GetButtonDown("Attack");
         }
 
         public override void LogicUpdate()
@@ -31,12 +34,16 @@ namespace PlayerGameplay
             {
                 _stateMachine.ChangeState(_playerController.dashState);
             }
+            if (attack)
+            {
+                _stateMachine.ChangeState(_playerController.attackState);
+            }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            _playerController.Move(inputDirection, _playerController.movementSpeed);
+            _playerController.Move(inputDirection, _playerController.MovementSpeed);
         }
     }
 }

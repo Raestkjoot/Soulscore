@@ -1,18 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class DashState : State
+    public class AttackState : State
     {
-        private float dashDuration;
+        private float attackDuration;
         private float deltaTime;
 
         private Vector2 inputDirection;
 
-        public DashState(PlayerController playerController, StateMachine stateMachine) 
-                    : base(playerController, stateMachine) 
+        public AttackState(PlayerController playerController, StateMachine stateMachine)
+                        : base(playerController, stateMachine) 
         {
-            dashDuration = _playerController.DashDuration;
+            attackDuration = _playerController.DashDuration;
         }
 
         public override void Enter()
@@ -27,17 +29,11 @@ namespace PlayerGameplay
             base.LogicUpdate();
             deltaTime += Time.deltaTime;
 
-            if (deltaTime >= dashDuration)
+            if (deltaTime >= attackDuration)
             {
                 deltaTime = 0f;
                 _stateMachine.ChangeState(_playerController.moveAndIdleState);
             }
         }
-
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
-            _playerController.Move(inputDirection, _playerController.DashSpeed);
-        }
-    } 
+    }
 }
