@@ -11,10 +11,14 @@ namespace PlayerGameplay
 
         private Vector2 inputDirection;
 
+        GameObject attackDirVisual;
+
         public AttackState(PlayerController playerController, StateMachine stateMachine)
                         : base(playerController, stateMachine) 
         {
-            attackDuration = _playerController.DashDuration;
+            attackDuration = _playerController.AttackDuration;
+            attackDirVisual = GameObject.Find("PlayerAim");
+            attackDirVisual.SetActive(false);
         }
 
         public override void Enter()
@@ -22,6 +26,9 @@ namespace PlayerGameplay
             base.Enter();
             inputDirection.x = Input.GetAxisRaw("Horizontal");
             inputDirection.y = Input.GetAxisRaw("Vertical");
+
+            attackDirVisual.transform.rotation = Quaternion.LookRotation(inputDirection, Vector3.up);
+            attackDirVisual.SetActive(true);
         }
 
         public override void LogicUpdate()
@@ -31,6 +38,7 @@ namespace PlayerGameplay
 
             if (deltaTime >= attackDuration)
             {
+                attackDirVisual.SetActive(false);
                 deltaTime = 0f;
                 _stateMachine.ChangeState(_playerController.moveAndIdleState);
             }
