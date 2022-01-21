@@ -2,13 +2,13 @@ namespace PlayerGameplay
 {
     public abstract class State
     {
-        protected PlayerController _playerController;
-        protected StateMachine _stateMachine;
+        protected PlayerController playerController;
+        protected StateMachine stateMachine;
 
         protected State(PlayerController playerController, StateMachine stateMachine)
         {
-            _playerController = playerController;
-            _stateMachine = stateMachine;
+            this.playerController = playerController;
+            this.stateMachine = stateMachine;
         }
 
         public virtual void Enter() { }

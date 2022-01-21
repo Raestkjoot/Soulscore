@@ -12,7 +12,7 @@ namespace PlayerGameplay
         public DashState(PlayerController playerController, StateMachine stateMachine) 
                     : base(playerController, stateMachine) 
         {
-            dashDuration = _playerController.DashDuration;
+            dashDuration = playerController.DashDuration;
         }
 
         public override void Enter()
@@ -30,14 +30,14 @@ namespace PlayerGameplay
             if (deltaTime >= dashDuration)
             {
                 deltaTime = 0f;
-                _stateMachine.ChangeState(_playerController.moveAndIdleState);
+                stateMachine.ChangeState(playerController.moveAndIdleState);
             }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            _playerController.Move(inputDirection, _playerController.DashSpeed);
+            playerController.Move(inputDirection, playerController.DashSpeed);
         }
     } 
 }

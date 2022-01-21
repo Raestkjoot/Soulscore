@@ -10,12 +10,14 @@ namespace PlayerGameplay
         private Rigidbody2D _rigidbody => gameObject.GetComponent<Rigidbody2D>();
 
         // Variables to control the gameplay
+        [SerializeField] private bool isUsingController;
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public float DashSpeed { get; private set; }
         [field: SerializeField] public float DashDuration { get; private set; }
         [field: SerializeField] public float AttackDuration { get; private set; }
+        [field: SerializeField] public float AttackHitDelay { get; private set; }
         [field: SerializeField] public float AttackDamage { get; private set; }
-
+        [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
         public StateMachine stateMachine;
         // States
@@ -36,6 +38,12 @@ namespace PlayerGameplay
             _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
         }
 
+        private void Awake()
+        {
+            if (MovementSpeed == 0)
+                Debug.Log("WARNING! Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
+        }
+
         #region State Callbacks
         private void Start()
         {
@@ -43,7 +51,7 @@ namespace PlayerGameplay
 
             moveAndIdleState = new MoveAndIdleState(this, stateMachine);
             dashState = new DashState(this, stateMachine);
-            attackState = new AttackState(this, stateMachine);
+            attackState = new AttackState(this, stateMachine, isUsingController);
 
             stateMachine.Initialize(moveAndIdleState);
         }

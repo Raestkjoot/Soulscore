@@ -32,18 +32,18 @@ namespace PlayerGameplay
             base.LogicUpdate();
             if (dash)
             {
-                _stateMachine.ChangeState(_playerController.dashState);
+                stateMachine.ChangeState(playerController.dashState);
             }
             if (attack)
             {
-                _stateMachine.ChangeState(_playerController.attackState);
+                stateMachine.ChangeState(playerController.attackState);
             }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            _playerController.Move(inputDirection, _playerController.MovementSpeed);
+            playerController.Move(inputDirection, playerController.MovementSpeed);
         }
     }
 }
