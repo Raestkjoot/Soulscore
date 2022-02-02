@@ -533,9 +533,9 @@ GameObject:
   - component: {fileID: 681654578}
   - component: {fileID: 681654577}
   - component: {fileID: 681654576}
-  - component: {fileID: 681654579}
   - component: {fileID: 681654580}
   - component: {fileID: 681654575}
+  - component: {fileID: 681654579}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -643,17 +643,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 681654574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7015f18686496c44a28eb1d0d40602b, type: 3}
+  m_Script: {fileID: 11500000, guid: cb64a066d46e7dc4eaeb687c242e4871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsingController: 0
   <MovementSpeed>k__BackingField: 8
-  <DashSpeed>k__BackingField: 40
-  <DashDuration>k__BackingField: 0.13
-  <AttackDuration>k__BackingField: 0.3
-  <AttackHitDelay>k__BackingField: 0.1
-  <AttackDamage>k__BackingField: 25
-  <AttackingMovementSpeed>k__BackingField: 2
 --- !u!50 &681654580
 Rigidbody2D:
   serializedVersion: 4
