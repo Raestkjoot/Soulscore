@@ -1,9 +1,12 @@
+using UnityEngine;
+
 namespace PlayerGameplay
 {
     public abstract class State
     {
         protected PlayerController playerController;
         protected StateMachine stateMachine;
+        protected Animator animator;
 
         protected State(PlayerController playerController, StateMachine stateMachine)
         {

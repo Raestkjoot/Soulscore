@@ -43,7 +43,17 @@ namespace PlayerGameplay
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            playerController.Move(inputDirection, playerController.MovementSpeed);
+            if (inputDirection != Vector2.zero)
+            {
+                playerController.Move(inputDirection, playerController.MovementSpeed);
+                // Play run
+                playerController.ChangeAnimationState("PlayerRunRight");
+            }
+            else
+            {
+                // Play idle
+                playerController.ChangeAnimationState("PlayerIdle");
+            }
         }
     }
 }

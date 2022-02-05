@@ -7,7 +7,8 @@ namespace PlayerGameplay
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour
     {
-        private Rigidbody2D _rigidbody => gameObject.GetComponent<Rigidbody2D>();
+        private Rigidbody2D _rigidbody;
+        private Animator _animator;
 
         // Variables to control the gameplay
         [SerializeField] private bool isUsingController;
@@ -25,6 +26,8 @@ namespace PlayerGameplay
         public DashState dashState;
         public AttackState attackState;
 
+        private string currentAnimState;
+
         /// <summary>
         /// Move the player according to the direction vector and speed.
         /// </summary>
@@ -38,6 +41,18 @@ namespace PlayerGameplay
             _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ChangeAnimationState(string newState)
+        {
+            if (currentAnimState == newState) return;
+
+            _animator.Play(newState);
+
+            currentAnimState = newState;
+        }
+
         private void Awake()
         {
             if (MovementSpeed == 0)
@@ -47,6 +62,9 @@ namespace PlayerGameplay
         #region State Callbacks
         private void Start()
         {
+            _rigidbody = gameObject.GetComponent<Rigidbody2D>();
+            _animator = gameObject.GetComponent<Animator>();
+
             stateMachine = new StateMachine();
 
             moveAndIdleState = new MoveAndIdleState(this, stateMachine);
