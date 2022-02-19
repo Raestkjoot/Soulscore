@@ -9,6 +9,7 @@ namespace PlayerGameplay
         // New mouse input aim
         private bool isUsingController;
         private Camera cam => GameObject.Find("Camera").GetComponent<Camera>();
+        private Action _action;
 
         // New attack hit
         private Transform attackPoint => GameObject.Find("AttackPoint").transform;
@@ -47,6 +48,8 @@ namespace PlayerGameplay
 
             aimDirection = inputHandler.GetAimDirection();
 
+            _action = Action.None;
+
             // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
             attackDirVisual.transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
             attackDirVisual.SetActive(true);
@@ -58,7 +61,9 @@ namespace PlayerGameplay
 
             moveDirection = inputHandler.GetMoveDirection();
 
-            // TODO: action = _inputHandler.GetAction;
+            Action newAction = inputHandler.GetActionInput();
+            if (newAction != Action.None)
+                _action = newAction;
         }
 
         public override void LogicUpdate()
@@ -70,14 +75,26 @@ namespace PlayerGameplay
             if (deltaTime >= attackDuration)
             {
                 attackDirVisual.SetActive(false);
-                // TODO: switch (action)
-                stateMachine.ChangeState(playerController.moveAndIdleState);
+
+                switch (_action)
+                {
+                    case Action.Attack:
+                        stateMachine.ChangeState(playerController.attackState);
+                        break;
+                    case Action.Dash:
+                        stateMachine.ChangeState(playerController.dashState);
+                        break;
+                    default:
+                        stateMachine.ChangeState(playerController.moveAndIdleState);
+                        break;
+                }
             }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
+
             // We also want to move a little while attacking
             playerController.Move(moveDirection, playerController.AttackingMovementSpeed);
 

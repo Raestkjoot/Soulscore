@@ -6,6 +6,7 @@ namespace PlayerGameplay
     {
         private Vector2 _moveDirection;
         private Vector2 _aimDirection;
+        private Action _actionInput = Action.None;
         private Camera cam;
         private bool isUsingController;
 
@@ -17,6 +18,11 @@ namespace PlayerGameplay
         public Vector2 GetAimDirection()
         {
             return _aimDirection;
+        }
+
+        public Action GetActionInput()
+        {
+            return _actionInput;
         }
 
         private void Start()
@@ -48,6 +54,10 @@ namespace PlayerGameplay
             }
 
             // Get action input
+            if (Input.GetButtonDown("Dash")) { _actionInput = Action.Dash; }
+            else if (Input.GetButtonDown("Attack")) { _actionInput = Action.Attack; }
+            else { _actionInput = Action.None; }
+
         }
     }
 }

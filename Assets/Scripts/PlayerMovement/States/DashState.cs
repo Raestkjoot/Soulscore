@@ -9,6 +9,8 @@ namespace PlayerGameplay
 
         private Vector2 moveDirection;
 
+        private Action _action;
+
         public DashState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler) 
                     : base(playerController, stateMachine, inputHandler) 
         {
@@ -20,11 +22,20 @@ namespace PlayerGameplay
             base.Enter();
 
             moveDirection = inputHandler.GetMoveDirection();
+            _action = Action.None;
         }
 
         // TODO: get action
         // public override void HandleInput()
         // action = _inputHandler.GetAction;
+        public override void HandleInput()
+        {
+            base.HandleInput();
+
+            Action action = inputHandler.GetActionInput();
+            if (action != Action.None)
+                _action = action;
+        }
 
         public override void LogicUpdate()
         {
@@ -35,8 +46,16 @@ namespace PlayerGameplay
             if (deltaTime >= dashDuration)
             {
                 deltaTime = 0f;
-                // TODO: switch (action)
-                stateMachine.ChangeState(playerController.moveAndIdleState);
+
+                switch (_action)
+                {
+                    case Action.Attack:
+                        stateMachine.ChangeState(playerController.attackState);
+                        break;
+                    default:
+                        stateMachine.ChangeState(playerController.moveAndIdleState);
+                        break;
+                }
             }
         }
 

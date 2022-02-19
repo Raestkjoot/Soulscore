@@ -5,8 +5,7 @@ namespace PlayerGameplay
     public class MoveAndIdleState : State
     {
         private Vector2 moveDirection;
-        private bool dash;
-        private bool attack;
+        private Action _action;
 
         public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
                     : base(playerController, stateMachine, inputHandler) { }
@@ -14,34 +13,30 @@ namespace PlayerGameplay
         public override void Enter()
         {
             base.Enter();
-            dash = false;
-            attack = false;
+            _action = Action.None;
         }
 
         public override void HandleInput()
         {
             base.HandleInput();
 
-            // moveDirection = _inputHandler.GetMoveDirection;
             moveDirection = inputHandler.GetMoveDirection();
 
-            // TODO: action = _inputHandler.GetAction;
-            dash = Input.GetButtonDown("Dash");
-            attack = Input.GetButtonDown("Attack");
+            _action = inputHandler.GetActionInput();
         }
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
 
-            // TODO: switch (action) ...
-            if (dash)
+            switch (_action)
             {
-                stateMachine.ChangeState(playerController.dashState);
-            }
-            if (attack)
-            {
-                stateMachine.ChangeState(playerController.attackState);
+                case Action.Dash:
+                    stateMachine.ChangeState(playerController.dashState);
+                    break;
+                case Action.Attack:
+                    stateMachine.ChangeState(playerController.attackState);
+                    break;
             }
         }
 
@@ -52,13 +47,13 @@ namespace PlayerGameplay
             if (moveDirection != Vector2.zero)
             {
                 playerController.Move(moveDirection, playerController.MovementSpeed);
-                // Play run
+                // Play run animation
                 playerController.ChangeAnimationState("PlayerRunRight");
                 // TODO: Set direction (for animation)
             }
             else
             {
-                // Play idle
+                // Play idle animation
                 playerController.ChangeAnimationState("PlayerIdle");
             }
         }
