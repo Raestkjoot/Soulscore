@@ -15,7 +15,6 @@ namespace PlayerGameplay
         private float attackRange = 1f;
         public LayerMask enemyLayers = LayerMask.GetMask("Default");
 
-
         private float attackDuration;
         private float attackHitDelay;
         private float deltaTime;
@@ -23,17 +22,15 @@ namespace PlayerGameplay
         private float fixedDeltaTime;
         private bool hasAttacked;
 
-        private Vector2 inputDirection;
+        private Vector2 moveDirection;
         // New mouse input aim
-        private Vector2 attackDirection;
+        private Vector2 aimDirection;
 
         GameObject attackDirVisual;
 
-        public AttackState(PlayerController playerController, StateMachine stateMachine, bool isUsingController)
-                        : base(playerController, stateMachine) 
+        public AttackState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
+                        : base(playerController, stateMachine, inputHandler)
         {
-            this.isUsingController = isUsingController;
-
             attackDuration = playerController.AttackDuration;
             attackHitDelay = playerController.AttackHitDelay;
             attackDirVisual = GameObject.Find("PlayerAim");
@@ -48,36 +45,20 @@ namespace PlayerGameplay
             fixedDeltaTime = 0f;
             hasAttacked = false;
 
-            inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.y = Input.GetAxisRaw("Vertical");
+            aimDirection = inputHandler.GetAimDirection();
 
-            // Handle aim input from mouse or controller
-            // this could be handled by an adapter (https://refactoring.guru/design-patterns/adapter/csharp/example)
-            if (isUsingController)
-            {
-                attackDirection = inputDirection;
-            }
-            else
-            {
-                Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-                attackDirection = (mousePosition - 
-                                    new Vector2(
-                                        playerController.transform.position.x, 
-                                        playerController.transform.position.y))
-                                    .normalized;
-            }
-
-            // This is just a visual for testing. Or is it?
-            attackDirVisual.transform.rotation = Quaternion.LookRotation(attackDirection, Vector3.up);
+            // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
+            attackDirVisual.transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
             attackDirVisual.SetActive(true);
         }
 
         public override void HandleInput()
         {
             base.HandleInput();
-            // For moving
-            inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.y = Input.GetAxisRaw("Vertical");
+
+            moveDirection = inputHandler.GetMoveDirection();
+
+            // TODO: action = _inputHandler.GetAction;
         }
 
         public override void LogicUpdate()
@@ -89,16 +70,16 @@ namespace PlayerGameplay
             if (deltaTime >= attackDuration)
             {
                 attackDirVisual.SetActive(false);
+                // TODO: switch (action)
                 stateMachine.ChangeState(playerController.moveAndIdleState);
             }
-
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
             // We also want to move a little while attacking
-            playerController.Move(inputDirection, playerController.AttackingMovementSpeed);
+            playerController.Move(moveDirection, playerController.AttackingMovementSpeed);
 
             // Hit detection
             fixedDeltaTime += Time.fixedDeltaTime;

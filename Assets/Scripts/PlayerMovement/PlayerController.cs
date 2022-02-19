@@ -11,7 +11,6 @@ namespace PlayerGameplay
         private Animator _animator;
 
         // Variables to control the gameplay
-        [SerializeField] private bool isUsingController;
         [field: SerializeField] public float MovementSpeed { get; private set; }
         [field: SerializeField] public float DashSpeed { get; private set; }
         [field: SerializeField] public float DashDuration { get; private set; }
@@ -21,6 +20,8 @@ namespace PlayerGameplay
         [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
         public StateMachine stateMachine;
+        public PlayerInputHandler inputHandler;
+
         // States
         public MoveAndIdleState moveAndIdleState;
         public DashState dashState;
@@ -42,8 +43,9 @@ namespace PlayerGameplay
         }
 
         /// <summary>
-        /// 
+        /// Change the player's current animation state to some specific animation state.
         /// </summary>
+        /// <param name="newState"> The name of the animation state we want to change to. </param>
         public void ChangeAnimationState(string newState)
         {
             if (currentAnimState == newState) return;
@@ -66,10 +68,11 @@ namespace PlayerGameplay
             _animator = gameObject.GetComponent<Animator>();
 
             stateMachine = new StateMachine();
+            inputHandler = gameObject.AddComponent<PlayerInputHandler>();
 
-            moveAndIdleState = new MoveAndIdleState(this, stateMachine);
-            dashState = new DashState(this, stateMachine);
-            attackState = new AttackState(this, stateMachine, isUsingController);
+            moveAndIdleState = new MoveAndIdleState(this, stateMachine, inputHandler);
+            dashState = new DashState(this, stateMachine, inputHandler);
+            attackState = new AttackState(this, stateMachine, inputHandler);
 
             stateMachine.Initialize(moveAndIdleState);
         }

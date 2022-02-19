@@ -399,7 +399,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 9
   m_Depth: 0
   m_CullingMask:
@@ -424,7 +424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468386354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -8.25}
+  m_LocalPosition: {x: 0, y: 0, z: -15.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 681654578}
@@ -668,7 +668,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7015f18686496c44a28eb1d0d40602b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsingController: 0
   <MovementSpeed>k__BackingField: 8
   <DashSpeed>k__BackingField: 40
   <DashDuration>k__BackingField: 0.13
@@ -676,6 +675,7 @@ MonoBehaviour:
   <AttackHitDelay>k__BackingField: 0.1
   <AttackDamage>k__BackingField: 25
   <AttackingMovementSpeed>k__BackingField: 2
+  inputHandler: {fileID: 0}
 --- !u!50 &681654580
 Rigidbody2D:
   serializedVersion: 4

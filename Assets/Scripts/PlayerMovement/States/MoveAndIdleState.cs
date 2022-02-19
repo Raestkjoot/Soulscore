@@ -4,11 +4,12 @@ namespace PlayerGameplay
 {
     public class MoveAndIdleState : State
     {
-        private Vector2 inputDirection;
+        private Vector2 moveDirection;
         private bool dash;
         private bool attack;
 
-        public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine) { }
+        public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
+                    : base(playerController, stateMachine, inputHandler) { }
 
         public override void Enter()
         {
@@ -20,9 +21,11 @@ namespace PlayerGameplay
         public override void HandleInput()
         {
             base.HandleInput();
-            inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.y = Input.GetAxisRaw("Vertical");
 
+            // moveDirection = _inputHandler.GetMoveDirection;
+            moveDirection = inputHandler.GetMoveDirection();
+
+            // TODO: action = _inputHandler.GetAction;
             dash = Input.GetButtonDown("Dash");
             attack = Input.GetButtonDown("Attack");
         }
@@ -30,6 +33,8 @@ namespace PlayerGameplay
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+
+            // TODO: switch (action) ...
             if (dash)
             {
                 stateMachine.ChangeState(playerController.dashState);
@@ -43,11 +48,13 @@ namespace PlayerGameplay
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            if (inputDirection != Vector2.zero)
+
+            if (moveDirection != Vector2.zero)
             {
-                playerController.Move(inputDirection, playerController.MovementSpeed);
+                playerController.Move(moveDirection, playerController.MovementSpeed);
                 // Play run
                 playerController.ChangeAnimationState("PlayerRunRight");
+                // TODO: Set direction (for animation)
             }
             else
             {

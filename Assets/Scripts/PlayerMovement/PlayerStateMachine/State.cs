@@ -6,12 +6,13 @@ namespace PlayerGameplay
     {
         protected PlayerController playerController;
         protected StateMachine stateMachine;
-        protected Animator animator;
+        protected PlayerInputHandler inputHandler;
 
-        protected State(PlayerController playerController, StateMachine stateMachine)
+        protected State(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
         {
             this.playerController = playerController;
             this.stateMachine = stateMachine;
+            this.inputHandler = inputHandler;
         }
 
         public virtual void Enter() { }

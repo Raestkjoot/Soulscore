@@ -7,10 +7,10 @@ namespace PlayerGameplay
         private float dashDuration;
         private float deltaTime;
 
-        private Vector2 inputDirection;
+        private Vector2 moveDirection;
 
-        public DashState(PlayerController playerController, StateMachine stateMachine) 
-                    : base(playerController, stateMachine) 
+        public DashState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler) 
+                    : base(playerController, stateMachine, inputHandler) 
         {
             dashDuration = playerController.DashDuration;
         }
@@ -18,18 +18,24 @@ namespace PlayerGameplay
         public override void Enter()
         {
             base.Enter();
-            inputDirection.x = Input.GetAxisRaw("Horizontal");
-            inputDirection.y = Input.GetAxisRaw("Vertical");
+
+            moveDirection = inputHandler.GetMoveDirection();
         }
+
+        // TODO: get action
+        // public override void HandleInput()
+        // action = _inputHandler.GetAction;
 
         public override void LogicUpdate()
         {
             base.LogicUpdate();
+
             deltaTime += Time.deltaTime;
 
             if (deltaTime >= dashDuration)
             {
                 deltaTime = 0f;
+                // TODO: switch (action)
                 stateMachine.ChangeState(playerController.moveAndIdleState);
             }
         }
@@ -37,7 +43,7 @@ namespace PlayerGameplay
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            playerController.Move(inputDirection, playerController.DashSpeed);
+            playerController.Move(moveDirection, playerController.DashSpeed);
         }
     } 
 }
