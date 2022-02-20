@@ -7,8 +7,8 @@ namespace PlayerGameplay
         private Vector2 _moveDirection;
         private Vector2 _aimDirection;
         private Action _actionInput = Action.None;
-        private Camera cam;
-        private bool isUsingController;
+        private Camera _cam;
+        private bool _isUsingController;
 
         public Vector2 GetMoveDirection()
         {
@@ -27,7 +27,10 @@ namespace PlayerGameplay
 
         private void Start()
         {
-            cam = GameObject.Find("Camera").GetComponent<Camera>();
+            _cam = GameObject.Find("Camera").GetComponent<Camera>();
+
+            if (!_cam)
+                Debug.LogWarning("Camera not found!");
         }
 
         private void Update()
@@ -39,13 +42,13 @@ namespace PlayerGameplay
             _moveDirection.y = Input.GetAxisRaw("Vertical");
 
             // Get aim direction
-            if (isUsingController) 
+            if (_isUsingController) 
             {
                 _aimDirection = _moveDirection;
             }
             else
             {
-                Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePosition = _cam.ScreenToWorldPoint(Input.mousePosition);
                 _aimDirection = (mousePosition -
                                     new Vector2(
                                         transform.position.x,

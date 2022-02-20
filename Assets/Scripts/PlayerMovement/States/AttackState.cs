@@ -6,62 +6,62 @@ namespace PlayerGameplay
 {
     public class AttackState : State
     {
-        // New mouse input aim
-        private bool isUsingController;
-        private Camera cam => GameObject.Find("Camera").GetComponent<Camera>();
+        public LayerMask enemyLayers = LayerMask.GetMask("Default");
+
         private Action _action;
 
         // New attack hit
-        private Transform attackPoint => GameObject.Find("AttackPoint").transform;
-        private float attackRange = 1f;
-        public LayerMask enemyLayers = LayerMask.GetMask("Default");
+        private Transform _attackPoint;
+        private float _attackRange = 1f;
 
-        private float attackDuration;
-        private float attackHitDelay;
-        private float deltaTime;
-        // New attack hit
-        private float fixedDeltaTime;
-        private bool hasAttacked;
+        private float _attackDuration;
+        private float _attackHitDelay;
+        private float _deltaTime;
+        private float _fixedDeltaTime;
+        private bool _hasAttacked;
 
-        private Vector2 moveDirection;
-        // New mouse input aim
-        private Vector2 aimDirection;
+        private Vector2 _moveDirection;
+        private Vector2 _aimDirection;
 
-        GameObject attackDirVisual;
+        private GameObject _attackVFX;
 
         public AttackState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
                         : base(playerController, stateMachine, inputHandler)
         {
-            attackDuration = playerController.AttackDuration;
-            attackHitDelay = playerController.AttackHitDelay;
-            attackDirVisual = GameObject.Find("PlayerAim");
-            attackDirVisual.SetActive(false);
+            _attackPoint = GameObject.Find("AttackPoint").transform;
+            if (!_attackPoint)
+                Debug.LogWarning("AttackPoint game object not found!");
+
+            _attackDuration = playerController.AttackDuration;
+            _attackHitDelay = playerController.AttackHitDelay;
+            _attackVFX = GameObject.Find("PlayerAim");
+            _attackVFX.SetActive(false);
         }
 
         public override void Enter()
         {
             base.Enter();
 
-            deltaTime = 0f;
-            fixedDeltaTime = 0f;
-            hasAttacked = false;
+            _deltaTime = 0f;
+            _fixedDeltaTime = 0f;
+            _hasAttacked = false;
 
-            aimDirection = inputHandler.GetAimDirection();
+            _aimDirection = _inputHandler.GetAimDirection();
 
             _action = Action.None;
 
             // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
-            attackDirVisual.transform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
-            attackDirVisual.SetActive(true);
+            _attackVFX.transform.rotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
+            _attackVFX.SetActive(true);
         }
 
         public override void HandleInput()
         {
             base.HandleInput();
 
-            moveDirection = inputHandler.GetMoveDirection();
+            _moveDirection = _inputHandler.GetMoveDirection();
 
-            Action newAction = inputHandler.GetActionInput();
+            Action newAction = _inputHandler.GetActionInput();
             if (newAction != Action.None)
                 _action = newAction;
         }
@@ -70,22 +70,22 @@ namespace PlayerGameplay
         {
             base.LogicUpdate();
 
-            deltaTime += Time.deltaTime;
+            _deltaTime += Time.deltaTime;
 
-            if (deltaTime >= attackDuration)
+            if (_deltaTime >= _attackDuration)
             {
-                attackDirVisual.SetActive(false);
+                _attackVFX.SetActive(false);
 
                 switch (_action)
                 {
                     case Action.Attack:
-                        stateMachine.ChangeState(playerController.attackState);
+                        _stateMachine.ChangeState(_playerController.attackState);
                         break;
                     case Action.Dash:
-                        stateMachine.ChangeState(playerController.dashState);
+                        _stateMachine.ChangeState(_playerController.dashState);
                         break;
                     default:
-                        stateMachine.ChangeState(playerController.moveAndIdleState);
+                        _stateMachine.ChangeState(_playerController.moveAndIdleState);
                         break;
                 }
             }
@@ -96,22 +96,25 @@ namespace PlayerGameplay
             base.PhysicsUpdate();
 
             // We also want to move a little while attacking
-            playerController.Move(moveDirection, playerController.AttackingMovementSpeed);
+            _playerController.Move(_moveDirection, _playerController.AttackingMovementSpeed);
 
             // Hit detection
-            fixedDeltaTime += Time.fixedDeltaTime;
+            _fixedDeltaTime += Time.fixedDeltaTime;
 
-            if (fixedDeltaTime >= attackHitDelay && !hasAttacked)
+            // TODO: Maybe we'll wanna remove the bool_hasAttacked and check that we don't damage the same enemy multiple times.
+            //       That way we can have a damage window instead of just a damage frame.
+            //       Maybe use a dictionary and give each enemy an enemy-ID?
+            if (_fixedDeltaTime >= _attackHitDelay && !_hasAttacked)
             {
-                hasAttacked = true;
+                _hasAttacked = true;
 
                 Collider2D[] hitEnemies =
-                    Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+                    Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange, enemyLayers);
 
                 foreach (Collider2D enemy in hitEnemies)
                 {
                     Debug.Log("We hit " + enemy.name);
-                } 
+                }
             }
         }
     }

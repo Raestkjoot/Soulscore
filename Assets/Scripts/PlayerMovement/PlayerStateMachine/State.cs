@@ -4,15 +4,15 @@ namespace PlayerGameplay
 {
     public abstract class State
     {
-        protected PlayerController playerController;
-        protected StateMachine stateMachine;
-        protected PlayerInputHandler inputHandler;
+        protected PlayerController _playerController;
+        protected StateMachine _stateMachine;
+        protected PlayerInputHandler _inputHandler;
 
         protected State(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
         {
-            this.playerController = playerController;
-            this.stateMachine = stateMachine;
-            this.inputHandler = inputHandler;
+            _playerController = playerController;
+            _stateMachine = stateMachine;
+            _inputHandler = inputHandler;
         }
 
         public virtual void Enter() { }

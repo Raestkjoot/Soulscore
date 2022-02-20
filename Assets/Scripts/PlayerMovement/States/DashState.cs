@@ -4,24 +4,25 @@ namespace PlayerGameplay
 {
     public class DashState : State
     {
-        private float dashDuration;
-        private float deltaTime;
+        // TODO: Perhaps deltaTime could be public so dash attack can use it? Also moveDirection?
+        private float _dashDuration;
+        private float _deltaTime;
 
-        private Vector2 moveDirection;
+        private Vector2 _moveDirection;
 
         private Action _action;
 
         public DashState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler) 
-                    : base(playerController, stateMachine, inputHandler) 
+                    : base(playerController, stateMachine, inputHandler)
         {
-            dashDuration = playerController.DashDuration;
+            _dashDuration = playerController.DashDuration;
         }
 
         public override void Enter()
         {
             base.Enter();
 
-            moveDirection = inputHandler.GetMoveDirection();
+            _moveDirection = _inputHandler.GetMoveDirection();
             _action = Action.None;
         }
 
@@ -32,7 +33,7 @@ namespace PlayerGameplay
         {
             base.HandleInput();
 
-            Action action = inputHandler.GetActionInput();
+            Action action = _inputHandler.GetActionInput();
             if (action != Action.None)
                 _action = action;
         }
@@ -41,19 +42,19 @@ namespace PlayerGameplay
         {
             base.LogicUpdate();
 
-            deltaTime += Time.deltaTime;
+            _deltaTime += Time.deltaTime;
 
-            if (deltaTime >= dashDuration)
+            if (_deltaTime >= _dashDuration)
             {
-                deltaTime = 0f;
+                _deltaTime = 0f;
 
                 switch (_action)
                 {
                     case Action.Attack:
-                        stateMachine.ChangeState(playerController.attackState);
+                        _stateMachine.ChangeState(_playerController.attackState);
                         break;
                     default:
-                        stateMachine.ChangeState(playerController.moveAndIdleState);
+                        _stateMachine.ChangeState(_playerController.moveAndIdleState);
                         break;
                 }
             }
@@ -62,7 +63,7 @@ namespace PlayerGameplay
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            playerController.Move(moveDirection, playerController.DashSpeed);
+            _playerController.Move(_moveDirection, _playerController.DashSpeed);
         }
     } 
 }

@@ -4,7 +4,7 @@ namespace PlayerGameplay
 {
     public class MoveAndIdleState : State
     {
-        private Vector2 moveDirection;
+        private Vector2 _moveDirection;
         private Action _action;
 
         public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
@@ -20,9 +20,9 @@ namespace PlayerGameplay
         {
             base.HandleInput();
 
-            moveDirection = inputHandler.GetMoveDirection();
+            _moveDirection = _inputHandler.GetMoveDirection();
 
-            _action = inputHandler.GetActionInput();
+            _action = _inputHandler.GetActionInput();
         }
 
         public override void LogicUpdate()
@@ -32,10 +32,10 @@ namespace PlayerGameplay
             switch (_action)
             {
                 case Action.Dash:
-                    stateMachine.ChangeState(playerController.dashState);
+                    _stateMachine.ChangeState(_playerController.dashState);
                     break;
                 case Action.Attack:
-                    stateMachine.ChangeState(playerController.attackState);
+                    _stateMachine.ChangeState(_playerController.attackState);
                     break;
             }
         }
@@ -44,17 +44,17 @@ namespace PlayerGameplay
         {
             base.PhysicsUpdate();
 
-            if (moveDirection != Vector2.zero)
+            if (_moveDirection != Vector2.zero)
             {
-                playerController.Move(moveDirection, playerController.MovementSpeed);
+                _playerController.Move(_moveDirection, _playerController.MovementSpeed);
                 // Play run animation
-                playerController.ChangeAnimationState("PlayerRunRight");
+                _playerController.ChangeAnimationState("PlayerRunRight");
                 // TODO: Set direction (for animation)
             }
             else
             {
                 // Play idle animation
-                playerController.ChangeAnimationState("PlayerIdle");
+                _playerController.ChangeAnimationState("PlayerIdle");
             }
         }
     }
