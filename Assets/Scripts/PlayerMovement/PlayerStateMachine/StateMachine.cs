@@ -4,10 +4,10 @@ namespace PlayerGameplay
     {
         public State CurrentState { get; private set; }
 
-        public void Initialize(State startingState)
+        public void Initialize(State initialState)
         {
-            CurrentState = startingState;
-            startingState.Enter();
+            CurrentState = initialState;
+            initialState.Enter();
         }
 
         public void ChangeState(State newState)

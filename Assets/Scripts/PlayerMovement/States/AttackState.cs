@@ -8,8 +8,6 @@ namespace PlayerGameplay
     {
         public LayerMask enemyLayers = LayerMask.GetMask("Default");
 
-        private Action _action;
-
         // New attack hit
         private Transform _attackPoint;
         private float _attackRange = 1f;
@@ -48,8 +46,6 @@ namespace PlayerGameplay
 
             _aimDirection = _inputHandler.GetAimDirection();
 
-            _action = Action.None;
-
             // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
             _attackVFX.transform.rotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
             _attackVFX.SetActive(true);
@@ -61,9 +57,10 @@ namespace PlayerGameplay
 
             _moveDirection = _inputHandler.GetMoveDirection();
 
-            Action newAction = _inputHandler.GetActionInput();
-            if (newAction != Action.None)
-                _action = newAction;
+            // TODO: When abilities are added, add transitions to them.
+            //Action newAction = _inputHandler.GetActionInput();
+            //if (newAction != Action.None)
+            //    _action = newAction;
         }
 
         public override void LogicUpdate()
@@ -76,18 +73,7 @@ namespace PlayerGameplay
             {
                 _attackVFX.SetActive(false);
 
-                switch (_action)
-                {
-                    case Action.Attack:
-                        _stateMachine.ChangeState(_playerController.attackState);
-                        break;
-                    case Action.Dash:
-                        _stateMachine.ChangeState(_playerController.dashState);
-                        break;
-                    default:
-                        _stateMachine.ChangeState(_playerController.moveAndIdleState);
-                        break;
-                }
+                _stateMachine.ChangeState(_playerController.idleState);
             }
         }
 
@@ -96,6 +82,7 @@ namespace PlayerGameplay
             base.PhysicsUpdate();
 
             // We also want to move a little while attacking
+            // TODO: currently this interacts poorly with dashing. Fix it.
             _playerController.Move(_moveDirection, _playerController.AttackingMovementSpeed);
 
             // Hit detection

@@ -17,12 +17,14 @@ namespace PlayerGameplay
         [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
         // States
-        public MoveAndIdleState moveAndIdleState;
+        public MoveState moveState;
         public DashState dashState;
+        public IdleState idleState;
         public AttackState attackState;
 
         private Rigidbody2D _rigidbody;
-        private StateMachine _stateMachine;
+        private StateMachine _movementStateMachine;
+        private StateMachine _actionStateMachine;
         private PlayerInputHandler _inputHandler;
         private Animator _animator;
         private string _currentAnimState;
@@ -59,32 +61,41 @@ namespace PlayerGameplay
                 Debug.LogWarning("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
         }
 
-        #region State Callbacks
         private void Start()
         {
             _rigidbody = gameObject.GetComponent<Rigidbody2D>();
             _animator = gameObject.GetComponent<Animator>();
 
-            _stateMachine = new StateMachine();
+            _movementStateMachine = new StateMachine();
+            _actionStateMachine = new StateMachine();
             _inputHandler = gameObject.AddComponent<PlayerInputHandler>();
 
-            moveAndIdleState = new MoveAndIdleState(this, _stateMachine, _inputHandler);
-            dashState = new DashState(this, _stateMachine, _inputHandler);
-            attackState = new AttackState(this, _stateMachine, _inputHandler);
+            moveState = new MoveState(this, _movementStateMachine, _inputHandler);
+            dashState = new DashState(this, _movementStateMachine, _inputHandler);
 
-            _stateMachine.Initialize(moveAndIdleState);
+            idleState = new IdleState(this, _actionStateMachine, _inputHandler);
+            attackState = new AttackState(this, _actionStateMachine, _inputHandler);
+            //abilityState = new AbilityState(this, _actionStateMachine, _inputHandler);
+
+            _movementStateMachine.Initialize(moveState);
+            _actionStateMachine.Initialize(idleState);
         }
 
+        #region State Callbacks
         private void Update()
         {
-            _stateMachine.CurrentState.HandleInput();
+            _movementStateMachine.CurrentState.HandleInput();
+            _movementStateMachine.CurrentState.LogicUpdate();
 
-            _stateMachine.CurrentState.LogicUpdate();
+            _actionStateMachine.CurrentState.HandleInput();
+            _actionStateMachine.CurrentState.LogicUpdate();
         }
 
         private void FixedUpdate()
         {
-            _stateMachine.CurrentState.PhysicsUpdate();
+            _movementStateMachine.CurrentState.PhysicsUpdate();
+
+            _actionStateMachine.CurrentState.PhysicsUpdate();
         }
         #endregion
     }
