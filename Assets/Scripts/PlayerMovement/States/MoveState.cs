@@ -44,7 +44,7 @@ namespace PlayerGameplay
 
             if (_moveDirection != Vector2.zero)
             {
-                _playerController.Move(_moveDirection, _playerController.MovementSpeed);
+                //_playerController.Move(_moveDirection, _playerController.MovementSpeed);
                 // Play run animation
                 _playerController.ChangeAnimationState("PlayerRunRight");
                 // TODO: Set direction (for animation)

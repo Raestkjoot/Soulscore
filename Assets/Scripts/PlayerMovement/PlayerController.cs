@@ -16,6 +16,8 @@ namespace PlayerGameplay
         [field: SerializeField] public float AttackDamage { get; private set; }
         [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
+        public bool IsDashing { get; set; }
+
         // States
         public MoveState moveState;
         public DashState dashState;
@@ -29,18 +31,9 @@ namespace PlayerGameplay
         private Animator _animator;
         private string _currentAnimState;
 
-        /// <summary>
-        /// Move the player according to the direction vector and speed.
-        /// </summary>
-        /// <param name="direction"> direction of the move. </param>
-        /// <param name="speed"> the speed of the move. </param>
-        /// <remarks>
-        /// Be sure to call this inside the FixedUpdate / PhysicsUpdate to avoid stuttering.
-        /// </remarks>
-        public void Move(Vector2 direction, float speed)
-        {
-            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
-        }
+        private Vector2 _moveDirection;
+        private Vector2 _dashDir;
+        private float _curMoveSpeed;
 
         /// <summary>
         /// Change the player's current animation state to some specific animation state.
@@ -55,10 +48,30 @@ namespace PlayerGameplay
             _currentAnimState = newState;
         }
 
+        public void SetSpeed(float speed)
+        {
+            _curMoveSpeed = speed;
+        }
+
+        /// <summary>
+        /// Move the player according to the direction vector and speed.
+        /// </summary>
+        /// <param name="direction"> direction of the move. </param>
+        /// <param name="speed"> the speed of the move. </param>
+        /// <remarks>
+        /// Be sure to call this inside the FixedUpdate / PhysicsUpdate to avoid stuttering.
+        /// </remarks>
+        private void Move(Vector2 direction, float speed)
+        {
+            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
+        }
+
         private void Awake()
         {
             if (MovementSpeed == 0)
                 Debug.LogWarning("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
+            else
+                _curMoveSpeed = MovementSpeed;
         }
 
         private void Start()
@@ -75,15 +88,17 @@ namespace PlayerGameplay
 
             idleState = new IdleState(this, _actionStateMachine, _inputHandler);
             attackState = new AttackState(this, _actionStateMachine, _inputHandler);
-            //abilityState = new AbilityState(this, _actionStateMachine, _inputHandler);
+            //TODO: abilityState = new AbilityState(this, _actionStateMachine, _inputHandler);
 
+            //Callbacks
             _movementStateMachine.Initialize(moveState);
             _actionStateMachine.Initialize(idleState);
         }
 
-        #region State Callbacks
         private void Update()
         {
+            _moveDirection = _inputHandler.GetMoveDirection();
+
             _movementStateMachine.CurrentState.HandleInput();
             _movementStateMachine.CurrentState.LogicUpdate();
 
@@ -93,10 +108,19 @@ namespace PlayerGameplay
 
         private void FixedUpdate()
         {
-            _movementStateMachine.CurrentState.PhysicsUpdate();
+            if (IsDashing)
+            {
+                Move(_dashDir, DashSpeed);
+            }
+            else if (_moveDirection != Vector2.zero)
+            {
+                Move(_moveDirection, _curMoveSpeed);
+                _dashDir = _moveDirection;
+            }
 
+            _movementStateMachine.CurrentState.PhysicsUpdate();
             _actionStateMachine.CurrentState.PhysicsUpdate();
+
         }
-        #endregion
     }
 }

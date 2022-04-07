@@ -40,6 +40,8 @@ namespace PlayerGameplay
         {
             base.Enter();
 
+            _playerController.SetSpeed(_playerController.AttackingMovementSpeed);
+
             _deltaTime = 0f;
             _fixedDeltaTime = 0f;
             _hasAttacked = false;
@@ -83,7 +85,7 @@ namespace PlayerGameplay
 
             // We also want to move a little while attacking
             // TODO: currently this interacts poorly with dashing. Fix it.
-            _playerController.Move(_moveDirection, _playerController.AttackingMovementSpeed);
+            //_playerController.Move(_moveDirection, _playerController.AttackingMovementSpeed);
 
             // Hit detection
             _fixedDeltaTime += Time.fixedDeltaTime;
@@ -103,6 +105,13 @@ namespace PlayerGameplay
                     Debug.Log("We hit " + enemy.name);
                 }
             }
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _playerController.SetSpeed(_playerController.MovementSpeed);
         }
     }
 }

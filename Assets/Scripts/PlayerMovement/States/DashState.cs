@@ -20,7 +20,8 @@ namespace PlayerGameplay
         {
             base.Enter();
 
-            _moveDirection = _inputHandler.GetMoveDirection();
+            //_moveDirection = _inputHandler.GetMoveDirection();
+            _playerController.IsDashing = true;
         }
 
         public override void LogicUpdate()
@@ -39,7 +40,14 @@ namespace PlayerGameplay
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            _playerController.Move(_moveDirection, _playerController.DashSpeed);
+            //_playerController.Move(_moveDirection, _playerController.DashSpeed);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _playerController.IsDashing = false;
         }
     } 
 }
