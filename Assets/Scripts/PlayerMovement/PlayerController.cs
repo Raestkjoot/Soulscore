@@ -16,29 +16,24 @@ namespace PlayerGameplay
         [field: SerializeField] public float AttackDamage { get; private set; }
         [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
+        public bool IsDashing { get; set; }
+
         // States
-        public MoveAndIdleState moveAndIdleState;
+        public MoveState moveState;
         public DashState dashState;
+        public IdleState idleState;
         public AttackState attackState;
 
         private Rigidbody2D _rigidbody;
-        private StateMachine _stateMachine;
+        private StateMachine _movementStateMachine;
+        private StateMachine _actionStateMachine;
         private PlayerInputHandler _inputHandler;
         private Animator _animator;
         private string _currentAnimState;
 
-        /// <summary>
-        /// Move the player according to the direction vector and speed.
-        /// </summary>
-        /// <param name="direction"> direction of the move. </param>
-        /// <param name="speed"> the speed of the move. </param>
-        /// <remarks>
-        /// Be sure to call this inside the FixedUpdate / PhysicsUpdate to avoid stuttering.
-        /// </remarks>
-        public void Move(Vector2 direction, float speed)
-        {
-            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
-        }
+        private Vector2 _moveDirection;
+        private Vector2 _dashDir;
+        private float _curMoveSpeed;
 
         /// <summary>
         /// Change the player's current animation state to some specific animation state.
@@ -53,39 +48,79 @@ namespace PlayerGameplay
             _currentAnimState = newState;
         }
 
+        public void SetSpeed(float speed)
+        {
+            _curMoveSpeed = speed;
+        }
+
+        /// <summary>
+        /// Move the player according to the direction vector and speed.
+        /// </summary>
+        /// <param name="direction"> direction of the move. </param>
+        /// <param name="speed"> the speed of the move. </param>
+        /// <remarks>
+        /// Be sure to call this inside the FixedUpdate / PhysicsUpdate to avoid stuttering.
+        /// </remarks>
+        private void Move(Vector2 direction, float speed)
+        {
+            _rigidbody.MovePosition(_rigidbody.position + direction.normalized * speed * Time.fixedDeltaTime);
+        }
+
         private void Awake()
         {
             if (MovementSpeed == 0)
                 Debug.LogWarning("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
+            else
+                _curMoveSpeed = MovementSpeed;
         }
 
-        #region State Callbacks
         private void Start()
         {
             _rigidbody = gameObject.GetComponent<Rigidbody2D>();
             _animator = gameObject.GetComponent<Animator>();
 
-            _stateMachine = new StateMachine();
+            _movementStateMachine = new StateMachine();
+            _actionStateMachine = new StateMachine();
             _inputHandler = gameObject.AddComponent<PlayerInputHandler>();
 
-            moveAndIdleState = new MoveAndIdleState(this, _stateMachine, _inputHandler);
-            dashState = new DashState(this, _stateMachine, _inputHandler);
-            attackState = new AttackState(this, _stateMachine, _inputHandler);
+            moveState = new MoveState(this, _movementStateMachine, _inputHandler);
+            dashState = new DashState(this, _movementStateMachine, _inputHandler);
 
-            _stateMachine.Initialize(moveAndIdleState);
+            idleState = new IdleState(this, _actionStateMachine, _inputHandler);
+            attackState = new AttackState(this, _actionStateMachine, _inputHandler);
+            //TODO: abilityState = new AbilityState(this, _actionStateMachine, _inputHandler);
+
+            //Callbacks
+            _movementStateMachine.Initialize(moveState);
+            _actionStateMachine.Initialize(idleState);
         }
 
         private void Update()
         {
-            _stateMachine.CurrentState.HandleInput();
+            _moveDirection = _inputHandler.GetMoveDirection();
 
-            _stateMachine.CurrentState.LogicUpdate();
+            _movementStateMachine.CurrentState.HandleInput();
+            _movementStateMachine.CurrentState.LogicUpdate();
+
+            _actionStateMachine.CurrentState.HandleInput();
+            _actionStateMachine.CurrentState.LogicUpdate();
         }
 
         private void FixedUpdate()
         {
-            _stateMachine.CurrentState.PhysicsUpdate();
+            if (IsDashing)
+            {
+                Move(_dashDir, DashSpeed);
+            }
+            else if (_moveDirection != Vector2.zero)
+            {
+                Move(_moveDirection, _curMoveSpeed);
+                _dashDir = _moveDirection;
+            }
+
+            _movementStateMachine.CurrentState.PhysicsUpdate();
+            _actionStateMachine.CurrentState.PhysicsUpdate();
+
         }
-        #endregion
     }
 }

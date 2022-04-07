@@ -4,13 +4,11 @@ namespace PlayerGameplay
 {
     public class DashState : State
     {
-        // TODO: Perhaps deltaTime could be public so dash attack can use it? Also moveDirection?
+        // TODO: bool - iFrames?
         private float _dashDuration;
         private float _deltaTime;
 
         private Vector2 _moveDirection;
-
-        private Action _action;
 
         public DashState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler) 
                     : base(playerController, stateMachine, inputHandler)
@@ -22,20 +20,8 @@ namespace PlayerGameplay
         {
             base.Enter();
 
-            _moveDirection = _inputHandler.GetMoveDirection();
-            _action = Action.None;
-        }
-
-        // TODO: get action
-        // public override void HandleInput()
-        // action = _inputHandler.GetAction;
-        public override void HandleInput()
-        {
-            base.HandleInput();
-
-            Action action = _inputHandler.GetActionInput();
-            if (action != Action.None)
-                _action = action;
+            //_moveDirection = _inputHandler.GetMoveDirection();
+            _playerController.IsDashing = true;
         }
 
         public override void LogicUpdate()
@@ -47,23 +33,21 @@ namespace PlayerGameplay
             if (_deltaTime >= _dashDuration)
             {
                 _deltaTime = 0f;
-
-                switch (_action)
-                {
-                    case Action.Attack:
-                        _stateMachine.ChangeState(_playerController.attackState);
-                        break;
-                    default:
-                        _stateMachine.ChangeState(_playerController.moveAndIdleState);
-                        break;
-                }
+                _stateMachine.ChangeState(_playerController.moveState);
             }
         }
 
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
-            _playerController.Move(_moveDirection, _playerController.DashSpeed);
+            //_playerController.Move(_moveDirection, _playerController.DashSpeed);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _playerController.IsDashing = false;
         }
     } 
 }

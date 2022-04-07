@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class MoveAndIdleState : State
+    public class MoveState : State
     {
+        public State SubState { get; private set; }
+
         private Vector2 _moveDirection;
         private Action _action;
 
-        public MoveAndIdleState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
+        public MoveState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
                     : base(playerController, stateMachine, inputHandler) { }
 
         public override void Enter()
@@ -21,7 +23,6 @@ namespace PlayerGameplay
             base.HandleInput();
 
             _moveDirection = _inputHandler.GetMoveDirection();
-
             _action = _inputHandler.GetActionInput();
         }
 
@@ -29,14 +30,11 @@ namespace PlayerGameplay
         {
             base.LogicUpdate();
 
-            switch (_action)
+            // TODO: bool canDash - Used by other actions to set wether the player can dash during the ability.
+            // TODO: Add some cooldown / max consecutive dashes.
+            if (_action == Action.Dash)
             {
-                case Action.Dash:
-                    _stateMachine.ChangeState(_playerController.dashState);
-                    break;
-                case Action.Attack:
-                    _stateMachine.ChangeState(_playerController.attackState);
-                    break;
+                _stateMachine.ChangeState(_playerController.dashState);
             }
         }
 
@@ -46,10 +44,11 @@ namespace PlayerGameplay
 
             if (_moveDirection != Vector2.zero)
             {
-                _playerController.Move(_moveDirection, _playerController.MovementSpeed);
+                //_playerController.Move(_moveDirection, _playerController.MovementSpeed);
                 // Play run animation
                 _playerController.ChangeAnimationState("PlayerRunRight");
                 // TODO: Set direction (for animation)
+                // TODO: Animator.SetVec2("moveDir", _moveDirection);
             }
             else
             {
