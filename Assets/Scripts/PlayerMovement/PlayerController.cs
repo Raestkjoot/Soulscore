@@ -25,10 +25,10 @@ namespace PlayerGameplay
         public AttackState attackState;
 
         private Rigidbody2D _rigidbody;
+        private Animator _animator;
         private StateMachine _movementStateMachine;
         private StateMachine _actionStateMachine;
         private PlayerInputHandler _inputHandler;
-        private Animator _animator;
         private string _currentAnimState;
 
         private Vector2 _moveDirection;

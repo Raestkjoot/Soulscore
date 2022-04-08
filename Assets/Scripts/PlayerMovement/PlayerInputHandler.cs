@@ -54,8 +54,14 @@ namespace PlayerGameplay
             }
             else
             {
-                Vector2 mousePosition = _cam.ScreenToWorldPoint(Input.mousePosition);
-                _aimDirection = (mousePosition -
+                Vector3 mousePosition = Input.mousePosition;
+                mousePosition.z = 1.0f;
+                Vector2 mouseOnScreenPosition = _cam.ScreenToWorldPoint(mousePosition);
+                Debug.Log("input mouse pos  = " + Input.mousePosition);
+                Debug.Log("screen mouse pos = " + _cam.ScreenToWorldPoint(Input.mousePosition));
+                Debug.Log("mouse pos        = " + mousePosition);
+                Debug.Log("transform pos    = " + transform.position);
+                _aimDirection = (mouseOnScreenPosition -
                                     new Vector2(
                                         transform.position.x,
                                         transform.position.y))
