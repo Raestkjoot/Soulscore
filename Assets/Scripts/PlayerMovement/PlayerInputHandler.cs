@@ -36,6 +36,12 @@ namespace PlayerGameplay
         private void Update()
         {
             // TODO: listen for controller/PC input and change isUsingController variable based on this
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                _isUsingController = !_isUsingController;
+                Debug.Log("Is using controller = " + _isUsingController);
+            }
+                
 
             // Get move direction
             _moveDirection.x = Input.GetAxisRaw("Horizontal");
