@@ -26,6 +26,7 @@ namespace PlayerGameplay
 
         private Rigidbody2D _rigidbody;
         private Animator _animator;
+        public SpriteRenderer _spriteRenderer;
         private StateMachine _movementStateMachine;
         private StateMachine _actionStateMachine;
         private PlayerInputHandler _inputHandler;
@@ -78,6 +79,7 @@ namespace PlayerGameplay
         {
             _rigidbody = gameObject.GetComponent<Rigidbody2D>();
             _animator = gameObject.GetComponent<Animator>();
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
             _movementStateMachine = new StateMachine();
             _actionStateMachine = new StateMachine();
@@ -98,6 +100,11 @@ namespace PlayerGameplay
         private void Update()
         {
             _moveDirection = _inputHandler.GetMoveDirection();
+
+            if (_moveDirection.x > 0)
+                _spriteRenderer.flipX = false;
+            else if (_moveDirection.x < 0)
+                _spriteRenderer.flipX = true;
 
             _movementStateMachine.CurrentState.HandleInput();
             _movementStateMachine.CurrentState.LogicUpdate();

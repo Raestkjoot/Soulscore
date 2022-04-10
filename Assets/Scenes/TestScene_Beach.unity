@@ -1082,10 +1082,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.24, y: 0.37}
+  m_Offset: {x: 0, y: 0.37}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.46, y: 0}
     oldSize: {x: 6, y: 4}
     newSize: {x: 6, y: 4}
     adaptiveTilingThreshold: 0.5
@@ -1200,6 +1200,7 @@ MonoBehaviour:
   <AttackHitDelay>k__BackingField: 0.1
   <AttackDamage>k__BackingField: 25
   <AttackingMovementSpeed>k__BackingField: 2
+  _spriteRenderer: {fileID: 0}
 --- !u!50 &681654580
 Rigidbody2D:
   serializedVersion: 4
