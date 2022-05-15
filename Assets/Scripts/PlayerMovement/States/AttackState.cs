@@ -49,8 +49,9 @@ namespace PlayerGameplay
             _aimDirection = _inputHandler.GetAimDirection();
 
             // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
-            _attackVFX.transform.rotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
-            _attackVFX.SetActive(true);
+            //_attackVFX.transform.rotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
+            //_attackVFX.SetActive(true);
+            _playerController.ChangeAnimationState("PlayerAttack");
         }
 
         public override void HandleInput()
