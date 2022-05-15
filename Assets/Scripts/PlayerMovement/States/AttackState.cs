@@ -21,7 +21,8 @@ namespace PlayerGameplay
         private Vector2 _moveDirection;
         private Vector2 _aimDirection;
 
-        private GameObject _attackVFX;
+        //TODO: private GameObject _attackVFX;
+        private Transform _playerAim;
 
         public AttackState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
                         : base(playerController, stateMachine, inputHandler)
@@ -32,8 +33,9 @@ namespace PlayerGameplay
 
             _attackDuration = playerController.AttackDuration;
             _attackHitDelay = playerController.AttackHitDelay;
-            _attackVFX = GameObject.Find("PlayerAim");
-            _attackVFX.SetActive(false);
+            //TODO: _attackVFX = GameObject.Find("PlayerAim");
+            //TODO: _attackVFX.SetActive(false);
+            _playerAim = GameObject.Find("PlayerAim").transform;
         }
 
         public override void Enter()
@@ -48,10 +50,12 @@ namespace PlayerGameplay
 
             _aimDirection = _inputHandler.GetAimDirection();
 
-            // The attack hit box & vfx gets rotated around the player's axis of rotation towards the aimDirection.
-            //_attackVFX.transform.rotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
-            //_attackVFX.SetActive(true);
+            // The attack hit box & vfx gets rotated towards the aimDirection.
+            Quaternion aimRotation = Quaternion.LookRotation(_aimDirection);
+            _playerAim.rotation = aimRotation;
+            
             _playerController.ChangeAnimationState("PlayerAttack");
+            //TODO: _attackVFX.SetActive(true);
         }
 
         public override void HandleInput()
@@ -74,7 +78,7 @@ namespace PlayerGameplay
 
             if (_deltaTime >= _attackDuration)
             {
-                _attackVFX.SetActive(false);
+                //TODO: _attackVFX.SetActive(false);
 
                 _stateMachine.ChangeState(_playerController.idleState);
             }
@@ -84,16 +88,13 @@ namespace PlayerGameplay
         {
             base.PhysicsUpdate();
 
-            // We also want to move a little while attacking
-            // TODO: currently this interacts poorly with dashing. Fix it.
-            //_playerController.Move(_moveDirection, _playerController.AttackingMovementSpeed);
+            // TODO: Maybe we'll wanna remove the bool_hasAttacked and check that we don't damage the same enemy multiple times.
+            //       That way we can have a damage window instead of just a damage frame.
+            //       Maybe use a dictionary and give each enemy an enemy-ID?
 
             // Hit detection
             _fixedDeltaTime += Time.fixedDeltaTime;
 
-            // TODO: Maybe we'll wanna remove the bool_hasAttacked and check that we don't damage the same enemy multiple times.
-            //       That way we can have a damage window instead of just a damage frame.
-            //       Maybe use a dictionary and give each enemy an enemy-ID?
             if (_fixedDeltaTime >= _attackHitDelay && !_hasAttacked)
             {
                 _hasAttacked = true;

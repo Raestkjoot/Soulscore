@@ -17,6 +17,8 @@ namespace PlayerGameplay
         [field: SerializeField] public float AttackingMovementSpeed { get; private set; }
 
         public bool IsDashing { get; set; }
+        // Used for letting action animations play over the idle/move animations
+        public bool IsDoingAction { get; set; }
 
         // States
         public MoveState moveState;

@@ -68,7 +68,6 @@ namespace PlayerGameplay
             if (Input.GetButtonDown("Dash")) { _actionInput = Action.Dash; }
             else if (Input.GetButtonDown("Attack")) { _actionInput = Action.Attack; }
             else { _actionInput = Action.None; }
-
         }
     }
 }

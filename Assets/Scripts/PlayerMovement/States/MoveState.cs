@@ -42,20 +42,19 @@ namespace PlayerGameplay
         {
             base.PhysicsUpdate();
 
+            Animate();
+        }
+
+        private void Animate()
+        {
+            if (_playerController.IsDoingAction) return;
+
             if (_moveDirection != Vector2.zero)
             {
-                //_playerController.Move(_moveDirection, _playerController.MovementSpeed);
-                // Play run animation
-                //if (_moveDirection.x > 0)
-                    _playerController.ChangeAnimationState("PlayerRunRight");
-                //else
-                //    _playerController.ChangeAnimationState("PlayerRunLeft");
-                // TODO: Set direction (for animation)
-                // TODO: Animator.SetVec2("moveDir", _moveDirection);
+                _playerController.ChangeAnimationState("PlayerRunRight");
             }
             else
             {
-                // Play idle animation
                 _playerController.ChangeAnimationState("PlayerIdle");
             }
         }
