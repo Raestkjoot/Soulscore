@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace PlayerGameplay
 {
     public class IdleState : PlayerState
     {
         private Action _action;
-        private Vector2 _moveDirection;
 
         public IdleState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler)
                         : base(stateMachine, playerController, inputHandler) { }
@@ -26,8 +21,6 @@ namespace PlayerGameplay
             Action newAction = _inputHandler.GetActionInput();
             if (newAction != Action.None)
                 _action = newAction;
-
-            _moveDirection = _inputHandler.GetMoveDirection();
         }
 
         public override void LogicUpdate()

@@ -1898,6 +1898,7 @@ GameObject:
   - component: {fileID: 1399706920}
   - component: {fileID: 1399706919}
   - component: {fileID: 1399706918}
+  - component: {fileID: 1399706921}
   m_Layer: 0
   m_Name: EnemySquare
   m_TagString: Untagged
@@ -1996,6 +1997,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399706921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399706917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33eb5bb5043f6204a9b632d39001ff15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 681654578}
 --- !u!1 &1450926302
 GameObject:
   m_ObjectHideFlags: 0

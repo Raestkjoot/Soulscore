@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace PlayerGameplay
 {
     public abstract class PlayerState

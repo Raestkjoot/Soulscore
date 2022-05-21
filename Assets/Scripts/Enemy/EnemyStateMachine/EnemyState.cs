@@ -4,13 +4,13 @@ namespace Enemy
 {
     public abstract class EnemyState
     {
-        //protected PlayerController _playerController;
+        protected EnemyController _enemyController;
         protected EnemyStateMachine _stateMachine;
         //protected PlayerInputHandler _inputHandler;
 
-        protected EnemyState(EnemyStateMachine stateMachine) //, PlayerController playerController, PlayerInputHandler inputHandler)
+        protected EnemyState(EnemyStateMachine stateMachine, EnemyController enemyController)
         {
-            //_playerController = playerController;
+            _enemyController = enemyController;
             _stateMachine = stateMachine;
             //_inputHandler = inputHandler;
         }

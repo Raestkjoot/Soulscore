@@ -8,8 +8,6 @@ namespace PlayerGameplay
         private float _dashDuration;
         private float _deltaTime;
 
-        private Vector2 _moveDirection;
-
         public DashState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler) 
                     : base(stateMachine, playerController, inputHandler)
         {
@@ -20,7 +18,6 @@ namespace PlayerGameplay
         {
             base.Enter();
 
-            //_moveDirection = _inputHandler.GetMoveDirection();
             _playerController.IsDashing = true;
         }
 
@@ -35,12 +32,6 @@ namespace PlayerGameplay
                 _deltaTime = 0f;
                 _stateMachine.ChangeState(_playerController.moveState);
             }
-        }
-
-        public override void PhysicsUpdate()
-        {
-            base.PhysicsUpdate();
-            //_playerController.Move(_moveDirection, _playerController.DashSpeed);
         }
 
         public override void Exit()
