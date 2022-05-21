@@ -1,16 +1,16 @@
 namespace PlayerGameplay
 {
-    public class StateMachine
+    public class PlayerStateMachine
     {
-        public State CurrentState { get; private set; }
+        public PlayerState CurrentState { get; private set; }
 
-        public void Initialize(State initialState)
+        public void Initialize(PlayerState initialState)
         {
             CurrentState = initialState;
             initialState.Enter();
         }
 
-        public void ChangeState(State newState)
+        public void ChangeState(PlayerState newState)
         {
             CurrentState.Exit();
 

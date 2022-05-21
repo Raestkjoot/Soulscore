@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public abstract class State
+    public abstract class PlayerState
     {
         protected PlayerController _playerController;
-        protected StateMachine _stateMachine;
+        protected PlayerStateMachine _stateMachine;
         protected PlayerInputHandler _inputHandler;
 
-        protected State(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
+        protected PlayerState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler)
         {
             _playerController = playerController;
             _stateMachine = stateMachine;

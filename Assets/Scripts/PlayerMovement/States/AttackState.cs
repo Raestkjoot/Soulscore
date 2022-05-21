@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class AttackState : State
+    public class AttackState : PlayerState
     {
         public LayerMask enemyLayers = LayerMask.GetMask("Default");
 
@@ -24,8 +24,8 @@ namespace PlayerGameplay
         //TODO: private GameObject _attackVFX;
         private Transform _playerAim;
 
-        public AttackState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
-                        : base(playerController, stateMachine, inputHandler)
+        public AttackState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler)
+                        : base(stateMachine, playerController, inputHandler)
         {
             _attackPoint = GameObject.Find("AttackPoint").transform;
             if (!_attackPoint)

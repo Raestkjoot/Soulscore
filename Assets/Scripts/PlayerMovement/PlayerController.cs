@@ -29,8 +29,8 @@ namespace PlayerGameplay
         private Rigidbody2D _rigidbody;
         private Animator _animator;
         public SpriteRenderer _spriteRenderer;
-        private StateMachine _movementStateMachine;
-        private StateMachine _actionStateMachine;
+        private PlayerStateMachine _movementStateMachine;
+        private PlayerStateMachine _actionStateMachine;
         private PlayerInputHandler _inputHandler;
         private string _currentAnimState;
 
@@ -83,15 +83,15 @@ namespace PlayerGameplay
             _animator = gameObject.GetComponent<Animator>();
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-            _movementStateMachine = new StateMachine();
-            _actionStateMachine = new StateMachine();
+            _movementStateMachine = new PlayerStateMachine();
+            _actionStateMachine = new PlayerStateMachine();
             _inputHandler = gameObject.AddComponent<PlayerInputHandler>();
 
-            moveState = new MoveState(this, _movementStateMachine, _inputHandler);
-            dashState = new DashState(this, _movementStateMachine, _inputHandler);
+            moveState = new MoveState(_movementStateMachine, this, _inputHandler);
+            dashState = new DashState(_movementStateMachine, this, _inputHandler);
 
-            idleState = new IdleState(this, _actionStateMachine, _inputHandler);
-            attackState = new AttackState(this, _actionStateMachine, _inputHandler);
+            idleState = new IdleState(_actionStateMachine, this, _inputHandler);
+            attackState = new AttackState(_actionStateMachine, this, _inputHandler);
             //TODO: abilityState = new AbilityState(this, _actionStateMachine, _inputHandler);
 
             //Callbacks

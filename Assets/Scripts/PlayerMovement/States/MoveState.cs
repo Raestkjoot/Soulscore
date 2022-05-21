@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class MoveState : State
+    public class MoveState : PlayerState
     {
-        public State SubState { get; private set; }
+        public PlayerState SubState { get; private set; }
 
         private Vector2 _moveDirection;
         private Action _action;
 
-        public MoveState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
-                    : base(playerController, stateMachine, inputHandler) { }
+        public MoveState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler)
+                    : base(stateMachine, playerController, inputHandler) { }
 
         public override void Enter()
         {

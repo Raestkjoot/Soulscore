@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class IdleState : State
+    public class IdleState : PlayerState
     {
         private Action _action;
         private Vector2 _moveDirection;
 
-        public IdleState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler)
-                        : base(playerController, stateMachine, inputHandler) { }
+        public IdleState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler)
+                        : base(stateMachine, playerController, inputHandler) { }
 
         public override void Enter()
         {

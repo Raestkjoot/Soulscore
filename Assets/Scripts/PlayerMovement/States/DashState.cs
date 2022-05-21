@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PlayerGameplay
 {
-    public class DashState : State
+    public class DashState : PlayerState
     {
         // TODO: bool - iFrames?
         private float _dashDuration;
@@ -10,8 +10,8 @@ namespace PlayerGameplay
 
         private Vector2 _moveDirection;
 
-        public DashState(PlayerController playerController, StateMachine stateMachine, PlayerInputHandler inputHandler) 
-                    : base(playerController, stateMachine, inputHandler)
+        public DashState(PlayerStateMachine stateMachine, PlayerController playerController, PlayerInputHandler inputHandler) 
+                    : base(stateMachine, playerController, inputHandler)
         {
             _dashDuration = playerController.DashDuration;
         }
