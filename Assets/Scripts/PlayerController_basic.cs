@@ -5,7 +5,7 @@ using Common;
 namespace PlayerGameplay
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController_basic : MonoBehaviour
     {
         // Variables that control the gameplay
         [field: SerializeField] public float MovementSpeed { get; private set; }
@@ -39,6 +39,7 @@ namespace PlayerGameplay
             _playerControls.Player.Move.canceled += ctx =>
                 _moveDirection = Vector2.zero;
 
+            _rigidbody = GetComponent<Rigidbody2D>();
 
             if (MovementSpeed == 0)
                 this.LogLog("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
@@ -53,11 +54,6 @@ namespace PlayerGameplay
         private void OnDisable()
         {
             _playerControls.Player.Disable();
-        }
-
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         private void FixedUpdate()
