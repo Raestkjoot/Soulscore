@@ -1,9 +1,13 @@
 using Common;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Scripting;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject DefaultPawn;
+
     private IPawn _pawn;
     private PlayerControls _playerControls;
 
@@ -32,15 +36,23 @@ public class PlayerController : MonoBehaviour
         _playerControls.Player.Move.canceled += ctx =>
             _moveDirection = Vector2.zero;
 
-        // TODO: This is just for testing.
-        //       The call to possess should be moved to a GameHandler
-        Pawn testPawn = gameObject.GetComponent<Pawn>();
-        Possess(testPawn);
+        // TODO: The call to possess should probably be moved to a GameHandler
+        //IPawn pawn = DefaultPawn.GetComponent(typeof(IPawn)) as IPawn;
+
+        if (DefaultPawn.TryGetComponent(out IPawn pawn))
+        {
+            Possess(pawn);
+        }
+        else
+        {
+            this.LogError("No component implementing IPawn on DefaultPawn");
+        }
+        
     }
 
     private void FixedUpdate()
     {
-        _pawn.Move(_moveDirection);
+        _pawn?.Move(_moveDirection);
     }
 
     private void OnEnable()
