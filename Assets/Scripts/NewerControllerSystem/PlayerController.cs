@@ -1,28 +1,27 @@
 using Common;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Scripting;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject DefaultPawn;
+    [SerializeField] private GameObject StartingUnit;
 
-    private IPawn _pawn;
+    private Unit _curUnit;
+    // TODO: Look into how the inputSystem works and refactor
     private PlayerControls _playerControls;
 
     private Vector2 _moveDirection;
 
-    public void Possess(IPawn newPawn)
+    public void Possess(Unit newUnit)
     {
-        if (newPawn == null)
+        if (newUnit == null)
         {
+            this.LogLog("Tried to possess " + newUnit);
             this.LogError("possessed null");
         }
         else
         {
-            _pawn = newPawn;
-            this.LogLog("possessed " + _pawn);
+            _curUnit = newUnit;
+            this.LogLog("possessed " + _curUnit);
         }
     }
 
@@ -37,22 +36,20 @@ public class PlayerController : MonoBehaviour
             _moveDirection = Vector2.zero;
 
         // TODO: The call to possess should probably be moved to a GameHandler
-        //IPawn pawn = DefaultPawn.GetComponent(typeof(IPawn)) as IPawn;
-
-        if (DefaultPawn.TryGetComponent(out IPawn pawn))
+        if (StartingUnit.TryGetComponent(out Unit unit))
         {
-            Possess(pawn);
+            Possess(unit);
         }
         else
         {
-            this.LogError("No component implementing IPawn on DefaultPawn");
+            this.LogError("No Unit component on StartingUnit GameObject");
         }
-        
+        //Possess(StartingUnit);
     }
 
     private void FixedUpdate()
     {
-        _pawn?.Move(_moveDirection);
+        _curUnit?.Move(_moveDirection);
     }
 
     private void OnEnable()
