@@ -1021,9 +1021,8 @@ GameObject:
   - component: {fileID: 665984771}
   - component: {fileID: 665984770}
   - component: {fileID: 665984769}
-  - component: {fileID: 665984766}
   - component: {fileID: 665984768}
-  - component: {fileID: 665984767}
+  - component: {fileID: 665984766}
   - component: {fileID: 665984772}
   m_Layer: 0
   m_Name: Player (new and improved)
@@ -1045,72 +1044,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MovementSpeed>k__BackingField: 5
---- !u!114 &665984767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 665984765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 1acd3c80f6a1520429f5e2ba3f3759c9, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: d571627f62e99af4488e113ec12f261f, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: debf5ea1-6a89-4359-a031-eda86116c67a
-    m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: bcc22f75-b33e-4271-bc06-edeb7c430cf7
-    m_ActionName: Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e5e97329-8114-4225-866f-c83c7ae40458
-    m_ActionName: Player/Dash[/XInputControllerWindows/buttonSouth,/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2a7ab418-d8a8-435c-bdd8-be06ade5f554
-    m_ActionName: Player/Ability1[/XInputControllerWindows/buttonEast,/Keyboard/q]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 92a83195-4058-4023-8e36-b23ebda8b4f9
-    m_ActionName: Player/Ability2[/XInputControllerWindows/buttonNorth,/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b6f6446b-e53b-4ba9-b3d7-c4a205c29d01
-    m_ActionName: Player/Interact[/XInputControllerWindows/rightShoulder,/Mouse/rightButton]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 902295354}
 --- !u!50 &665984768
 Rigidbody2D:
   serializedVersion: 4
@@ -1679,6 +1612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1242155507}
   - component: {fileID: 1242155506}
+  - component: {fileID: 1242155508}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -1713,6 +1647,72 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1242155508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242155505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1acd3c80f6a1520429f5e2ba3f3759c9, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: d571627f62e99af4488e113ec12f261f, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: debf5ea1-6a89-4359-a031-eda86116c67a
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bcc22f75-b33e-4271-bc06-edeb7c430cf7
+    m_ActionName: Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5e97329-8114-4225-866f-c83c7ae40458
+    m_ActionName: Player/Dash[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2a7ab418-d8a8-435c-bdd8-be06ade5f554
+    m_ActionName: Player/Ability1[/XInputControllerWindows/buttonEast,/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92a83195-4058-4023-8e36-b23ebda8b4f9
+    m_ActionName: Player/Ability2[/XInputControllerWindows/buttonNorth,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b6f6446b-e53b-4ba9-b3d7-c4a205c29d01
+    m_ActionName: Player/Interact[/XInputControllerWindows/rightShoulder,/Mouse/rightButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 902295354}
 --- !u!1 &1399706917
 GameObject:
   m_ObjectHideFlags: 0

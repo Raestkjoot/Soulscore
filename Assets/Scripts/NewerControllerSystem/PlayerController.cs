@@ -1,15 +1,16 @@
 using Common;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject StartingUnit;
 
     private Unit _curUnit;
-    // TODO: Look into how the inputSystem works and refactor
-    private PlayerControls _playerControls;
 
-    private Vector2 _moveDirection;
+    private PlayerControls _playerControls;
+    private InputAction _move;
+    private InputAction _dash;
 
     public void Possess(Unit newUnit)
     {
@@ -17,47 +18,55 @@ public class PlayerController : MonoBehaviour
         {
             this.LogLog("Tried to possess " + newUnit);
             this.LogError("possessed null");
+            return;
         }
-        else
-        {
-            _curUnit = newUnit;
-            this.LogLog("possessed " + _curUnit);
-        }
+
+        _curUnit = newUnit;
+        this.LogLog("possessed " + _curUnit);
     }
 
-    private void Awake()
+    public void Possess(GameObject newUnit)
     {
-        _playerControls = new PlayerControls();
-
-        // Set move direction using "Move" input action.
-        _playerControls.Player.Move.performed += ctx =>
-            _moveDirection = ctx.ReadValue<Vector2>();
-        _playerControls.Player.Move.canceled += ctx =>
-            _moveDirection = Vector2.zero;
-
-        // TODO: The call to possess should probably be moved to a GameHandler
         if (StartingUnit.TryGetComponent(out Unit unit))
         {
             Possess(unit);
         }
         else
         {
-            this.LogError("No Unit component on StartingUnit GameObject");
+            this.LogError("No Unit component on new unit gameObject: " + newUnit.name);
         }
-        //Possess(StartingUnit);
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        this.LogLog("Dash");
+    }
+
+    private void Awake()
+    {
+        _playerControls = new PlayerControls();
+
+        // TODO: The call to possess should probably be moved to a GameHandler
+        Possess(StartingUnit);
     }
 
     private void FixedUpdate()
     {
-        _curUnit?.Move(_moveDirection);
+        _curUnit?.Move(_move.ReadValue<Vector2>());
     }
 
     private void OnEnable()
     {
-        _playerControls.Player.Enable();
+        _move = _playerControls.Player.Move;
+        _move.Enable();
+
+        _dash = _playerControls.Player.Dash;
+        _dash.Enable();
+        _dash.performed += Dash;
     }
     private void OnDisable()
     {
-        _playerControls.Player.Disable();
+        _move.Disable();
+        _dash.Disable();
     }
 }
