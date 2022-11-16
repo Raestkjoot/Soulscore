@@ -4,6 +4,7 @@ public class Singleton<T> :
     MonoBehaviour where T : Component
 {
     private static T _instance;
+
     public static T Instance
     {
         get
@@ -24,7 +25,7 @@ public class Singleton<T> :
         }
     }
 
-    public virtual void Awake()
+    protected virtual void Awake()
     {
         if (_instance == null)
         {
