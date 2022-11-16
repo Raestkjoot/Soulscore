@@ -9,4 +9,4 @@ mainly responsible for concept art and story, while I do the programming and dev
 Who makes the art assets? Good question, we'll see once we get to that point.
 
 Taking inspiration from some of my favorite games: Hades, Dark Souls, League of Legends, Zelda, and more! 
-The core gameplay should be similar to Hades, an isometric action rpg. With cool ability and dialogue systems.
+The core gameplay should be similar to Hades, an isometric action rpg, with cool ability and dialogue systems.
