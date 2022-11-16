@@ -1,0 +1,63 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>513</x><y>47</y><w>108</w><h>27</h></coordinates><panel_attributes>GameHandler</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>315</x><y>119</y><w>90</w><h>27</h></coordinates><panel_attributes>InputSystem
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>119</y><w>126</w><h>27</h></coordinates><panel_attributes>PlayerController</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1143</x><y>452</y><w>108</w><h>27</h></coordinates><panel_attributes>Character</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>119</y><w>126</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;-
+has a</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>558</x><y>65</y><w>27</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>558</x><y>137</y><w>27</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>729</x><y>119</y><w>90</w><h>27</h></coordinates><panel_attributes>AIController</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>603</x><y>137</y><w>180</w><h>135</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;130;180;130;180;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>198</x><y>245</y><w>180</w><h>99</h></coordinates><panel_attributes>LinearMovement (basic normal)
+--
+- rigidbody
++ Move ()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>189</x><y>425</y><w>207</w><h>126</h></coordinates><panel_attributes>&lt;singleton&gt;
+AbilitySystem
+--
+//wrapper
+//Has overloads that call the other functions
++CastAbility()
+// CastAbility(unit) =&gt; CastAbilityByTarget(unit);
++CastAbilityByTarget(unit)
++CastAbilityByLoc(position)
+//CastFlags::
+//Cast -&gt; TryCast -&gt; checkCast -&gt; Process:intResult -&gt; Finish
+- CheckCast() // resources, cooldowns, valid target, LOS
+- Process() // multithreadable (requires ctx object)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>711</x><y>65</y><w>162</w><h>54</h></coordinates><panel_attributes>Node based behavior tree?
+Ideally not run-time evaluated.
+(Converted to code)
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>1143</x><y>479</y><w>279</w><h>198</h></coordinates><panel_attributes>ICharacter?
+All character have abilities-ish?:
+
+Character root gameobject, abilities...
+Unit (instead of char)
+player controller is mover for unit. 
+
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>522</x><y>245</y><w>90</w><h>27</h></coordinates><panel_attributes>Unit</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>612</x><y>263</y><w>207</w><h>135</h></coordinates><panel_attributes>null - &gt;can't move
+
+MonoBehavior. Has:
+list of abilities, 
+stats, 
+root gameobject
+
+be small. (&lt;= 64 bytes, a cache line)
+
+
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>369</x><y>236</y><w>171</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;-
+calls</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>207</x><y>173</y><w>162</w><h>45</h></coordinates><panel_attributes>IMovementGenerator
+--
++ Move()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>288</x><y>209</y><w>27</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>486</x><y>497</y><w>315</w><h>99</h></coordinates><panel_attributes>CooldownHistory
+--
+//produces events. cooldown started, ended
+//useful for UI
+GlobalCooldown
+History of active cooldowns
+hashmap / array
+struct (spell, start, cooldown / endtime)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>387</x><y>263</y><w>189</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-
+calls</panel_attributes><additional_attributes>10;190;170;190;170;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>162</x><y>389</y><w>288</w><h>36</h></coordinates><panel_attributes>AbilitySystem-&gt;Cast(sourceUnit, abilityID, targetUnit)
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>126</x><y>56</y><w>405</w><h>414</h></coordinates><panel_attributes>lt=&lt;&lt;-
+calls? (in update, deltatime)</panel_attributes><additional_attributes>70;440;10;440;10;10;430;10</additional_attributes></element><element><id>Relation</id><coordinates><x>567</x><y>263</y><w>54</w><h>252</h></coordinates><panel_attributes>lt=&lt;&lt;-
+has a</panel_attributes><additional_attributes>10;260;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>234</x><y>578</y><w>117</w><h>45</h></coordinates><panel_attributes>&lt;scriptable object&gt;
+Ability</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>171</x><y>686</y><w>324</w><h>243</h></coordinates><panel_attributes>What is an ability?
+name, desc, casttime, cooldown, id(array index).
+compile time script?
+--Effect--
+dealDMG, move, aura, buff,..
+
+
+
+
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element></diagram>
