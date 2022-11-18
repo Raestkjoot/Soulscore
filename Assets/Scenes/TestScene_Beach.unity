@@ -748,6 +748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MovementSpeed>k__BackingField: 5
+  ability: {fileID: 11400000, guid: 5de3b5ffdd9df0340b04607b41934ee7, type: 2}
 --- !u!50 &665984768
 Rigidbody2D:
   serializedVersion: 4

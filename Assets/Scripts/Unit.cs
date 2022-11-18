@@ -7,6 +7,8 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public float MovementSpeed { get; private set; }
     private UnitStats _stats;
 
+    [SerializeField] private Ability ability;
+
 
     private IMovementGenerator _movementGenerator;
 
