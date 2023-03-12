@@ -747,7 +747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c14d835dc5a9dc41bcc9d87934ae5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 5
+  attributes: {fileID: 11400000, guid: 12d3988081a18c847a1d2e42fe15682a, type: 2}
+  ability: {fileID: 11400000, guid: 5de3b5ffdd9df0340b04607b41934ee7, type: 2}
 --- !u!50 &665984768
 Rigidbody2D:
   serializedVersion: 4

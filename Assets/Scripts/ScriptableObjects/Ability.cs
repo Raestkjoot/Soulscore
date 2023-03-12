@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Ability", menuName = "Ability")]
+[CreateAssetMenu(fileName = "NewAbility", menuName = "AbilitySystem/Ability")]
 public class Ability : ScriptableObject
 {
     [SerializeField] private new string name;

@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82719a17619c6c64d9718c0c37516ecd, type: 3}
-  m_Name: Dash
+  m_Script: {fileID: 11500000, guid: f71635accf8e0a043aee2b7428343457, type: 3}
+  m_Name: AbilityDatabase
   m_EditorClassIdentifier: 
-  name: Dash
-  description: 'Move in quick dash in target direction '
-  castTime: 0
-  cooldown: 2
-  effectType: 5
+  _abilities:
+  - {fileID: 11400000, guid: 5de3b5ffdd9df0340b04607b41934ee7, type: 2}
