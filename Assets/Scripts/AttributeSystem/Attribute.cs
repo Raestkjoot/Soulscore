@@ -1,19 +1,21 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class Attribute
 {
     [SerializeField]
-    private string _name;
+    private EAttribute _name;
     [SerializeField]
     private float _baseValue;
 
     private float _curValue;
+    private List<AttributeModifier> _modifiers;
 
-    public void SetCurValue(float newValue)
+    public EAttribute GetName()
     {
-        _curValue = newValue;
+        return _name;
     }
 
     public void SetCurValueToBaseValue()
@@ -26,8 +28,28 @@ public class Attribute
         return _curValue;
     }
 
-    public void SetBaseValue(float newValue)
+    public int AddModifier(AttributeModifier modifier)
     {
-        _baseValue = newValue;
+        _modifiers.Add(modifier);
+        CalculateModifiers();
+
+        return _modifiers.Count;
+    }
+
+    public void RemoveModifier(int id)
+    {
+        _modifiers.RemoveAt(id);
+        CalculateModifiers();
+    }
+
+    private void CalculateModifiers()
+    {
+        float newValue = _baseValue;
+        foreach(AttributeModifier modifier in _modifiers)
+        {
+            modifier.Apply(ref newValue);
+        }
+
+        _curValue = newValue;
     }
 }

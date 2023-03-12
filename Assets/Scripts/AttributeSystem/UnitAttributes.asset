@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c67f925cd4fe941918d868fc1651e7, type: 3}
   m_Name: UnitAttributes
   m_EditorClassIdentifier: 
-  attributes:
-  - _name: AttackDamage
-    _baseValue: 60
-  - _name: AttackSpeed
-    _baseValue: 32
-  - _name: MoveSpeed
+  _initAttributes:
+  - _name: 0
     _baseValue: 5
