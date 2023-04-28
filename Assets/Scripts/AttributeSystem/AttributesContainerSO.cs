@@ -1,4 +1,3 @@
-using Common;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class AttributesContainerSO : ScriptableObject
     private Attribute[] _initAttributes;
 
     private Dictionary<EAttribute, Attribute> _attributes;
-    private Logr _logger = new Logr();
+    private ILogr _logger = new ConsoleLogger();
 
     public void Initialize()
     {

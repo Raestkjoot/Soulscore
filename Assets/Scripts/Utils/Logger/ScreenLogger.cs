@@ -1,19 +1,33 @@
-using System.Collections.Generic;
+using UnityEngine;
 
-public class MultiLogger : ILogr
+public class ScreenLogger : ILogr
 {
-    private readonly List<ILogr> loggers = new List<ILogr>();
+    private string _loggerName;
 
-    public void AddLogger(ILogr logger)
+    public ScreenLogger (string loggerName = "default")
     {
-        loggers.Add(logger);
+        _loggerName = loggerName;
     }
 
     public void Log(string message, LogLevel level)
     {
-        foreach (var logger in loggers)
+        string logLine = $"[{_loggerName}] [{level}] {message}";
+
+
+        switch (level)
         {
-            logger.Log(message, level);
+            case LogLevel.Trace:
+            case LogLevel.Debug:
+            case LogLevel.Info:
+                ScreenLogText.Log(logLine, Color.white);
+                break;
+            case LogLevel.Warn:
+                ScreenLogText.Log(logLine, Color.yellow);
+                break;
+            case LogLevel.Error:
+            case LogLevel.Critical:
+                ScreenLogText.Log(logLine, Color.red);
+                break;
         }
     }
 

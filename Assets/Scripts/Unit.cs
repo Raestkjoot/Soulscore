@@ -1,4 +1,3 @@
-using Common;
 using UnityEngine;
 
 [RequireComponent(typeof(IMovementGenerator))]
@@ -20,7 +19,7 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         attributes.Initialize();
-        Logr logger = new Logr();
+        ILogr logger = new ConsoleLogger();
 
         if (attributes.GetAttributeCurValue(EAttribute.MovementSpeed) == 0)
             logger.Log("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");

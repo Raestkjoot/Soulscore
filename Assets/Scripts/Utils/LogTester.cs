@@ -1,13 +1,13 @@
 using UnityEngine;
-using Common;
 
 public class LogTester : MonoBehaviour
 {
-    private ILogr _logger;
+    private ScreenLogger _logger;
+    private int n;
 
     private void Awake()
     {
-        _logger = new ConsoleLogger("TestLogger");
+        _logger = new ScreenLogger();
     }
 
     private void Update()
@@ -18,9 +18,12 @@ public class LogTester : MonoBehaviour
             //Debug.unityLogger.LogFormat(LogType.Warning, "unityLogger.Log");
 
 
+            _logger.Debug("testing");
             _logger.Trace("testing");
-
-            ScreenLogText.Log("screen text test", 3.0f);
+            _logger.Info("testing");
+            _logger.Warn("testing");
+            _logger.Error("testing");
+            _logger.Critical("testing");
         }
     }
 }

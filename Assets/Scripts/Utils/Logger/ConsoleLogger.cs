@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class ConsoleLogger : ILogr
 {
-    private string loggerName;
+    private string _loggerName;
 
     public ConsoleLogger(string loggerName = "default")
     {
-        this.loggerName = loggerName;
+        _loggerName = loggerName;
     }
 
-    public void Log(string message, LogLevel level)
+    public void Log(string message, LogLevel level = LogLevel.Info)
     {
-        string logLine = $"[{loggerName}] [{level}] {message}";
+        string logLine = $"[{_loggerName}] [{level}] {message}";
 
 
         switch (level)
@@ -29,6 +29,11 @@ public class ConsoleLogger : ILogr
                 UnityEngine.Debug.LogError(logLine);
                 break;
         }
+    }
+
+    public void Log(string message)
+    {
+        Log(message, LogLevel.Info);
     }
 
     public void Trace(string message)

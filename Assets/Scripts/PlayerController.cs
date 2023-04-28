@@ -1,4 +1,3 @@
-using Common;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _move;
     private InputAction _dash;
 
-    private Logr _logger;
+    private ILogr _logger;
 
     public void Possess(Unit newUnit)
     {
@@ -47,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _logger = new Logr();
+        _logger = new ConsoleLogger();
 
         _playerControls = new PlayerControls();
 
