@@ -9,6 +9,7 @@ public class AttributesContainerSO : ScriptableObject
     private Attribute[] _initAttributes;
 
     private Dictionary<EAttribute, Attribute> _attributes;
+    private Logr _logger = new Logr();
 
     public void Initialize()
     {
@@ -19,6 +20,8 @@ public class AttributesContainerSO : ScriptableObject
             attribute.SetCurValueToBaseValue();
             _attributes.Add(attribute.GetName(), attribute);
         }
+
+        
     }
 
     public float GetAttributeCurValue(EAttribute name)
@@ -28,7 +31,7 @@ public class AttributesContainerSO : ScriptableObject
             return attr.GetCurValue();
         }
 
-        this.LogWarn(string.Format("Attribute ({0}) not found!", name));
+        _logger.Warn(string.Format("Attribute ({0}) not found!", name));
         return 0;
     }
 }

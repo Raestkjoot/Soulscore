@@ -1,4 +1,5 @@
 using Common;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,17 +13,19 @@ public class PlayerController : MonoBehaviour
     private InputAction _move;
     private InputAction _dash;
 
+    private Logr _logger;
+
     public void Possess(Unit newUnit)
     {
         if (newUnit == null)
         {
-            this.LogLog("Tried to possess " + newUnit);
-            this.LogError("possessed null");
+            _logger.Debug("Tried to possess " + newUnit);
+            _logger.Error("possessed null");
             return;
         }
 
         _curUnit = newUnit;
-        this.LogLog("possessed " + _curUnit);
+        _logger.Trace("possessed " + _curUnit);
     }
 
     public void Possess(GameObject newUnit)
@@ -33,17 +36,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            this.LogError("No Unit component on new unit gameObject: " + newUnit.name);
+            _logger.Error("No Unit component on new unit gameObject: " + newUnit.name);
         }
     }
 
     private void Dash(InputAction.CallbackContext context)
     {
-        this.LogLog("Dash");
+        _logger.Trace("Dash");
     }
 
     private void Awake()
     {
+        _logger = new Logr();
+
         _playerControls = new PlayerControls();
 
         // TODO: The call to possess should probably be moved to a GameHandler

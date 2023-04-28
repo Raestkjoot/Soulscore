@@ -20,13 +20,14 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         attributes.Initialize();
+        Logr logger = new Logr();
 
         if (attributes.GetAttributeCurValue(EAttribute.MovementSpeed) == 0)
-            this.LogLog("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
+            logger.Log("Movement speed is set to 0, the player will not move. Remember to set stats in the inspector.");
 
         if (TryGetComponent(out IMovementGenerator movementGenerator))
             _movementGenerator = movementGenerator;
         else
-            this.LogError("No MovementGenerator");
+            logger.Error("No MovementGenerator");
     }
 }
