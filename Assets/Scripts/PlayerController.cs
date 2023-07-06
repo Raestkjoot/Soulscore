@@ -42,12 +42,13 @@ public class PlayerController : MonoBehaviour
     private void Dash(InputAction.CallbackContext context)
     {
         _logger.Trace("Dash");
+        // TODO: Dash Ability
+        _curUnit?.ApplyForceInMoveDirection(15f, .2f, 15f);
     }
 
     private void Awake()
     {
         _logger = new ConsoleLogger();
-
         _playerControls = new PlayerControls();
 
         // TODO: The call to possess should probably be moved to a GameHandler

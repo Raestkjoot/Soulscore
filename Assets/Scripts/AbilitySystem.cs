@@ -5,22 +5,22 @@ public class AbilitySystem : Singleton<AbilitySystem>
     private Ability[] abilities;
 
     // Overloads for casting abilities
-    public void Cast(int abilityID, Unit fromUnit) => 
-        CastAbilitySelfcast(abilityID, fromUnit);
-    public void Cast(int abilityID, Unit fromUnit, Unit targetUnit) => 
-        CastAbilityByTarget(abilityID, fromUnit, targetUnit);
-    public void Cast(int abilityID, Unit fromUnit, Vector3 targetPosition) =>
-        CastAbilityByPosition(abilityID, fromUnit, targetPosition);
+    public void Cast(int abilityID, Unit sourceUnit) => 
+        CastAbilitySelfcast(abilityID, sourceUnit);
+    public void Cast(int abilityID, Unit sourceUnit, Unit targetUnit) => 
+        CastAbilityByTarget(abilityID, sourceUnit, targetUnit);
+    public void Cast(int abilityID, Unit sourceUnit, Vector3 targetPosition) =>
+        CastAbilityByPosition(abilityID, sourceUnit, targetPosition);
 
-    public void CastAbilitySelfcast(int abilityID, Unit fromUnit) 
+    public void CastAbilitySelfcast(int abilityID, Unit sourceUnit) 
     { 
     }
 
-    public void CastAbilityByTarget(int abilityID, Unit fromUnit, Unit targetUnit) 
+    public void CastAbilityByTarget(int abilityID, Unit sourceUnit, Unit targetUnit) 
     { 
     }
 
-    public void CastAbilityByPosition(int abilityID, Unit fromUnit, Vector3 targetPosition) 
+    public void CastAbilityByPosition(int abilityID, Unit sourceUnit, Vector3 targetPosition) 
     { 
     }
 
