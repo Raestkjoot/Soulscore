@@ -52,8 +52,8 @@ public class Unit : MonoBehaviour
 
     public void ApplyForce(float force, Vector2 forceDir, float forceDuration, float friction)
     {
-        _force = force;
-        _forceDir = forceDir;
+        _force += force;
+        _forceDir += forceDir;
         _friction = friction;
 
         // calculate max duration
@@ -71,6 +71,7 @@ public class Unit : MonoBehaviour
         }
 
         _force = 0;
+        _forceDir = Vector2.zero;
     }
 
     private void Awake()
