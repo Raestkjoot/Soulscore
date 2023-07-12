@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71635accf8e0a043aee2b7428343457, type: 3}
-  m_Name: AbilityDatabase
+  m_Script: {fileID: 11500000, guid: d4cf34758247a434eb2c9d6493c3d426, type: 3}
+  m_Name: DashEffect
   m_EditorClassIdentifier: 
-  _abilities:
-  - {fileID: 11400000, guid: 5de3b5ffdd9df0340b04607b41934ee7, type: 2}

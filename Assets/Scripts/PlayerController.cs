@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviour
     {
         _logger.Trace("Dash");
         // TODO: Dash Ability
-        _curUnit?.ApplyForceInMoveDirection(15f, .2f, 15f);
+        //_curUnit?.ApplyForceInMoveDirection(15f, .2f, 15f);
+        _curUnit.TryActivateAbility((int)AbilityType.DashAbility);
     }
 
     private void Awake()

@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82719a17619c6c64d9718c0c37516ecd, type: 3}
+  m_Script: {fileID: 11500000, guid: c2eb38bff72d83d4f9f2ffa6328e235d, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
   name: Dash
-  description: 'Move in quick dash in target direction '
+  description: Dash in forward facing direction
   castTime: 0
   cooldown: 2
-  effectType: 5
+  targetType: 1
+  effects:
+  - type: 0
