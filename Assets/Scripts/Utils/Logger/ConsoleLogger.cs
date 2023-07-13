@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class ConsoleLogger : ILogr
@@ -11,8 +12,10 @@ public class ConsoleLogger : ILogr
 
     public void Log(string message, LogLevel level = LogLevel.Info)
     {
-        string logLine = $"[{_loggerName}] [{level}] {message}";
+        if ((int)level < EditorPrefs.GetInt("MinLogLevel"))
+            return;
 
+        string logLine = $"[{_loggerName}] [{level}] {message}";
 
         switch (level)
         {

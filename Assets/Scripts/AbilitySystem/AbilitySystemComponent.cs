@@ -4,7 +4,8 @@ namespace AbilitySystem
 {
     public class AbilitySystemComponent : MonoBehaviour
     {
-        [SerializeField] private Ability[] abilities = new Ability[4]; // four abilities: basic attack, dash, ability1, ability2
+        // four abilities: (EAbilityType) 0:basicAttack, 1:dash, 2:ability1, 3:ability2
+        [SerializeField] private Ability[] abilities = new Ability[4]; 
 
         private ILogr _logger;
 

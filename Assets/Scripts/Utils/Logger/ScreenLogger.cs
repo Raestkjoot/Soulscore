@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class ScreenLogger : ILogr
@@ -11,8 +12,10 @@ public class ScreenLogger : ILogr
 
     public void Log(string message, LogLevel level)
     {
-        string logLine = $"[{_loggerName}] [{level}] {message}";
+        if ((int)level < EditorPrefs.GetInt("MinLogLevel"))
+            return;
 
+        string logLine = $"[{_loggerName}] [{level}] {message}";
 
         switch (level)
         {
