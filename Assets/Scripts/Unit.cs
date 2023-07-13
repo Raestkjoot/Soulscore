@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using AbilitySystem;
+using AttributeSystem;
 
 [RequireComponent(typeof(IMovementGenerator))]
 public class Unit : MonoBehaviour
 {
-    [SerializeField] private AttributesContainerSO attributes;
+    [SerializeField] private AttributesContainer attributes;
 
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
 
@@ -18,13 +20,10 @@ public class Unit : MonoBehaviour
     private float _forceDuration;
     private float _friction;
 
-    // TODO: AbilitySystem
-    // TODO: CooldownHistory
-
     public void Move(Vector2 direction)
     {
         float speed = attributes.GetAttributeCurValue(EAttribute.MovementSpeed);
-        // only update _direction if direction is not 0. This way we can still use last input direction when not moving.
+        // only update _direction if direction is not 0. This way we can still get last input direction when not moving.
         if (direction.magnitude > 0)
         {
             _direction = direction;
@@ -33,7 +32,7 @@ public class Unit : MonoBehaviour
         if (_force != 0)
         {
             // Add force and movement direction together
-            // TODO: make sure both vectors are normalized at this point.
+            // TODO: make sure both vectors are normalized at this point. (only once)
             _direction *= speed;
             Vector2 relativeForceDir = _forceDir *_force;
             _direction += relativeForceDir;

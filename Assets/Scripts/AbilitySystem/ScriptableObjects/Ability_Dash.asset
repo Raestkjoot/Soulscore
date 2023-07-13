@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2eb38bff72d83d4f9f2ffa6328e235d, type: 3}
-  m_Name: Dash
+  m_Name: Ability_Dash
   m_EditorClassIdentifier: 
   name: Dash
   description: Dash in forward facing direction
@@ -18,4 +18,4 @@ MonoBehaviour:
   cooldown: 2
   targetType: 1
   effects:
-  - type: 0
+  - {fileID: 11400000, guid: d6ac3f8a0fd827f48bd174e3534acebf, type: 2}

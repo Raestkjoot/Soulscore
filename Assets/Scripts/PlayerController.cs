@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using AbilitySystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControls _playerControls;
     private InputAction _move;
+    private InputAction _attack;
     private InputAction _dash;
+    private InputAction _ability1;
+    private InputAction _ability2;
+    private InputAction _interact;
 
     private ILogr _logger;
 
@@ -39,13 +43,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attack(InputAction.CallbackContext context)
+    {
+        _logger.Trace("Attack");
+        _curUnit.TryActivateAbility((int)AbilityType.BasicAttack);
+    }
+
     private void Dash(InputAction.CallbackContext context)
     {
         _logger.Trace("Dash");
-        // TODO: Dash Ability
-        //_curUnit?.ApplyForceInMoveDirection(15f, .2f, 15f);
         _curUnit.TryActivateAbility((int)AbilityType.DashAbility);
     }
+
+    private void Ability1(InputAction.CallbackContext context)
+    {
+        _logger.Trace("Ability1");
+        _curUnit.TryActivateAbility((int)AbilityType.SpecialAbility1);
+    }
+
+    private void Ability2(InputAction.CallbackContext context)
+    {
+        _logger.Trace("Ability2");
+        _curUnit.TryActivateAbility((int)AbilityType.SpecialAbility2);
+    }
+
+    private void Interact(InputAction.CallbackContext context)
+    {
+        _logger.Trace("Interact");
+    }
+
 
     private void Awake()
     {
@@ -66,9 +92,25 @@ public class PlayerController : MonoBehaviour
         _move = _playerControls.Player.Move;
         _move.Enable();
 
+        _attack = _playerControls.Player.Attack;
+        _attack.Enable();
+        _attack.performed += Attack;
+
         _dash = _playerControls.Player.Dash;
         _dash.Enable();
         _dash.performed += Dash;
+
+        _ability1 = _playerControls.Player.Ability1;
+        _ability1.Enable();
+        _ability1.performed += Ability1;
+
+        _ability2 = _playerControls.Player.Ability2;
+        _ability2.Enable();
+        _ability2.performed += Ability2;
+
+        _interact = _playerControls.Player.Interact;
+        _interact.Enable();
+        _interact.performed += Interact;
     }
     private void OnDisable()
     {

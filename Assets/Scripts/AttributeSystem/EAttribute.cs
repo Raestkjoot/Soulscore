@@ -1,6 +1,9 @@
-public enum EAttribute
+namespace AttributeSystem
 {
-    MovementSpeed,
-    Health,
-    AttackDamage,
+    public enum EAttribute
+    {
+        MovementSpeed,
+        Health,
+        AttackDamage,
+    }
 }

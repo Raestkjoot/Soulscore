@@ -1,4 +1,4 @@
-using UnityEngine;
+using AbilitySystem;
 using UnityEditor;
 
 [CustomEditor(typeof(AbilitySystemComponent))]
@@ -13,24 +13,23 @@ public class AbilitySystemComponentEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if (target is AbilitySystemComponent abilitySystemComponent)
-        {
-            CreateAbilityObjectField("Basic Ability", 0, abilitySystemComponent);
-            CreateAbilityObjectField("Dash Ability", 1, abilitySystemComponent);
-            CreateAbilityObjectField("Special Ability 1", 2, abilitySystemComponent);
-            CreateAbilityObjectField("Special Ability 2", 3, abilitySystemComponent);
-        }
+        CreateAbilityObjectField("Basic Ability", (int)AbilityType.BasicAttack);
+        CreateAbilityObjectField("Dash Ability", (int)AbilityType.DashAbility);
+        CreateAbilityObjectField("Special Ability 1", (int)AbilityType.SpecialAbility1);
+        CreateAbilityObjectField("Special Ability 2", (int)AbilityType.SpecialAbility2);
     }
 
-    private void CreateAbilityObjectField(string abilityLabel, int abilityID, AbilitySystemComponent asc)
+    private void CreateAbilityObjectField(string abilityLabel, int abilityID)
     {
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField(abilityLabel);
-        //Ability currentNumber = abilitySystemComponent.abilities[i];
-        asc.abilities[abilityID] = (Ability)EditorGUILayout.ObjectField(
-            asc.abilities[abilityID],
-            typeof(Ability),
-            false);
+
+        abilities.GetArrayElementAtIndex(abilityID).objectReferenceValue = 
+            (Ability)EditorGUILayout.ObjectField(
+                abilities.GetArrayElementAtIndex(abilityID).objectReferenceValue,
+                typeof(Ability),
+                false);
+
         EditorGUILayout.EndHorizontal();
     }
 }

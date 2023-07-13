@@ -1,7 +1,10 @@
-public enum AbilityType
+namespace AbilitySystem
 {
-    BasicAttack,
-    DashAbility,
-    SpecialAbility1,
-    SpecialAbility2,
+    public enum AbilityType
+    {
+        BasicAttack,
+        DashAbility,
+        SpecialAbility1,
+        SpecialAbility2,
+    } 
 }

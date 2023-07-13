@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4cf34758247a434eb2c9d6493c3d426, type: 3}
-  m_Name: DashEffect
+  m_Name: Effect_Dash
   m_EditorClassIdentifier: 
