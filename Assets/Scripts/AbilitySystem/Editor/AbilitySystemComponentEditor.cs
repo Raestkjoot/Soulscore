@@ -1,5 +1,7 @@
 using AbilitySystem;
 using UnityEditor;
+using UnityEngine;
+using static UnityEditor.Rendering.FilterWindow;
 
 [CustomEditor(typeof(AbilitySystemComponent))]
 public class AbilitySystemComponentEditor : Editor
@@ -10,26 +12,22 @@ public class AbilitySystemComponentEditor : Editor
     {
         abilities = serializedObject.FindProperty("abilities");
     }
-
     public override void OnInspectorGUI()
     {
-        CreateAbilityObjectField("Basic Ability", (int)AbilityType.BasicAttack);
-        CreateAbilityObjectField("Dash Ability", (int)AbilityType.DashAbility);
-        CreateAbilityObjectField("Special Ability 1", (int)AbilityType.SpecialAbility1);
-        CreateAbilityObjectField("Special Ability 2", (int)AbilityType.SpecialAbility2);
-    }
 
-    private void CreateAbilityObjectField(string abilityLabel, int abilityID)
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(abilityLabel);
+        EditorGUILayout.PropertyField(
+            abilities.GetArrayElementAtIndex((int)AbilityType.BasicAttack),
+            new GUIContent("Basic Ability"));
+        EditorGUILayout.PropertyField(
+            abilities.GetArrayElementAtIndex((int)AbilityType.DashAbility),
+            new GUIContent("Dash Ability"));
+        EditorGUILayout.PropertyField(
+            abilities.GetArrayElementAtIndex((int)AbilityType.SpecialAbility1),
+            new GUIContent("Special Ability 1"));
+        EditorGUILayout.PropertyField(
+            abilities.GetArrayElementAtIndex((int)AbilityType.SpecialAbility2),
+            new GUIContent("Special Ability 2"));
 
-        abilities.GetArrayElementAtIndex(abilityID).objectReferenceValue = 
-            (Ability)EditorGUILayout.ObjectField(
-                abilities.GetArrayElementAtIndex(abilityID).objectReferenceValue,
-                typeof(Ability),
-                false);
-
-        EditorGUILayout.EndHorizontal();
+        serializedObject.ApplyModifiedProperties();
     }
 }
