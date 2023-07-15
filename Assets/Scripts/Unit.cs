@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] private AttributesContainer attributes;
 
-    [SerializeField] private AbilitySystemComponent abilitySystemComponent;
+    [SerializeField] private AbilityCaster abilitySystemComponent;
 
     private ILogr _logger;
     private IMovementGenerator _movementGenerator;
@@ -45,9 +45,6 @@ public class Unit : MonoBehaviour
             _movementGenerator?.Move(direction, speed);
         }
     }
-
-    public void TryActivateAbility(int abilityID) => 
-        abilitySystemComponent.TryActivateAbility(abilityID, this);
 
     public void ApplyForceInMoveDirection(float force, float forceDuration, float friction) =>
         ApplyForce(force, _direction, forceDuration, friction);

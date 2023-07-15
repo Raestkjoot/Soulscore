@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Rendering.FilterWindow;
 
-[CustomEditor(typeof(AbilitySystemComponent))]
+[CustomEditor(typeof(AbilityCaster))]
 public class AbilitySystemComponentEditor : Editor
 {
     SerializedProperty abilities;
@@ -14,7 +14,6 @@ public class AbilitySystemComponentEditor : Editor
     }
     public override void OnInspectorGUI()
     {
-
         EditorGUILayout.PropertyField(
             abilities.GetArrayElementAtIndex((int)AbilityType.BasicAttack),
             new GUIContent("Basic Ability"));

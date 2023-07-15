@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject StartingUnit;
 
     private Unit _curUnit;
+    private AbilityCaster _abilityCaster;
 
     private PlayerControls _playerControls;
     private InputAction _move;
@@ -26,6 +27,10 @@ public class PlayerController : MonoBehaviour
             _logger.Error("possessed null");
             return;
         }
+        if (!newUnit.TryGetComponent<AbilityCaster>(out _abilityCaster))
+        {
+            _logger.Info("No ability caster on Unit");
+        }
 
         _curUnit = newUnit;
         _logger.Trace("possessed " + _curUnit);
@@ -33,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     public void Possess(GameObject newUnit)
     {
-        if (StartingUnit.TryGetComponent(out Unit unit))
+        if (newUnit.TryGetComponent(out Unit unit))
         {
             Possess(unit);
         }
@@ -43,34 +48,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Attack(InputAction.CallbackContext context)
-    {
-        _logger.Trace("Attack");
-        _curUnit.TryActivateAbility((int)AbilityType.BasicAttack);
-    }
+    private void AttackActivate(InputAction.CallbackContext context) =>
+        _abilityCaster.TryActivateAbility((int)AbilityType.BasicAttack, _curUnit);
+    private void AttackRelease(InputAction.CallbackContext context) =>
+        _abilityCaster.ReleaseAbility((int)AbilityType.BasicAttack);
 
-    private void Dash(InputAction.CallbackContext context)
-    {
-        _logger.Trace("Dash");
-        _curUnit.TryActivateAbility((int)AbilityType.DashAbility);
-    }
+    private void DashActivate(InputAction.CallbackContext context) =>
+        _abilityCaster.TryActivateAbility((int)AbilityType.DashAbility, _curUnit);
+    private void DashReleased(InputAction.CallbackContext context) =>
+        _abilityCaster.ReleaseAbility((int)AbilityType.DashAbility);
 
-    private void Ability1(InputAction.CallbackContext context)
-    {
-        _logger.Trace("Ability1");
-        _curUnit.TryActivateAbility((int)AbilityType.SpecialAbility1);
-    }
+    private void Ability1Activate(InputAction.CallbackContext context) =>
+        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility1, _curUnit);
+    private void Ability1Execute(InputAction.CallbackContext context) =>
+        _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility1);
 
-    private void Ability2(InputAction.CallbackContext context)
-    {
-        _logger.Trace("Ability2");
-        _curUnit.TryActivateAbility((int)AbilityType.SpecialAbility2);
-    }
+    private void Ability2Activate(InputAction.CallbackContext context) =>
+        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility2, _curUnit);
+    private void Ability2Execute(InputAction.CallbackContext context) =>
+        _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility1);
 
-    private void Interact(InputAction.CallbackContext context)
-    {
-        _logger.Trace("Interact");
-    }
+    private void InteractActivate(InputAction.CallbackContext context) =>
+        _abilityCaster.TryActivateAbility((int)AbilityType.Interact, _curUnit);
+    private void InteractReleased(InputAction.CallbackContext context) =>
+        _abilityCaster.ReleaseAbility((int)AbilityType.Interact);
 
 
     private void Awake()
@@ -94,24 +95,35 @@ public class PlayerController : MonoBehaviour
 
         _attack = _playerControls.Player.Attack;
         _attack.Enable();
-        _attack.performed += Attack;
+        _attack.performed += AttackActivate;
+        _attack.canceled += AttackRelease;
 
         _dash = _playerControls.Player.Dash;
         _dash.Enable();
-        _dash.performed += Dash;
+        _dash.performed += DashActivate;
+        _dash.canceled += DashReleased;
 
         _ability1 = _playerControls.Player.Ability1;
         _ability1.Enable();
-        _ability1.performed += Ability1;
+        _ability1.performed += Ability1Activate;
+        _ability1.canceled += Ability1Execute;
 
         _ability2 = _playerControls.Player.Ability2;
         _ability2.Enable();
-        _ability2.performed += Ability2;
+        _ability2.performed += Ability2Activate;
+        _ability2.canceled += Ability2Execute;
 
         _interact = _playerControls.Player.Interact;
         _interact.Enable();
-        _interact.performed += Interact;
+        _interact.performed += InteractActivate;
+        _interact.canceled += InteractReleased;
     }
+
+    private void _ability2_canceled(InputAction.CallbackContext obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void OnDisable()
     {
         _move.Disable();

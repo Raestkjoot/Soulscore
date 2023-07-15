@@ -9,15 +9,20 @@ namespace AbilitySystem
         [SerializeField] private string description;
         [SerializeField] private float castTime;
         [SerializeField] private float cooldown;
+        [SerializeField] public bool isImmediate { get; }
 
         [SerializeField] private TargetType targetType;
+        public TargetType GetTargetType()
+        {
+            return targetType;
+        }
 
         [SerializeField] private Effect[] effects;
 
-        public void Execute(Unit source)
+        public void Execute(Unit source, Unit target)
         {
             foreach (Effect effect in effects)
-                effect.Execute(source);
+                effect.Execute(source, target);
         }
 
         //public void Cancel()
