@@ -49,27 +49,27 @@ public class PlayerController : MonoBehaviour
     }
 
     private void AttackActivate(InputAction.CallbackContext context) =>
-        _abilityCaster.TryActivateAbility((int)AbilityType.BasicAttack, _curUnit);
+        _abilityCaster.TryActivateAbility((int)AbilityType.BasicAttack);
     private void AttackRelease(InputAction.CallbackContext context) =>
         _abilityCaster.ReleaseAbility((int)AbilityType.BasicAttack);
 
     private void DashActivate(InputAction.CallbackContext context) =>
-        _abilityCaster.TryActivateAbility((int)AbilityType.DashAbility, _curUnit);
+        _abilityCaster.TryActivateAbility((int)AbilityType.DashAbility);
     private void DashReleased(InputAction.CallbackContext context) =>
         _abilityCaster.ReleaseAbility((int)AbilityType.DashAbility);
 
     private void Ability1Activate(InputAction.CallbackContext context) =>
-        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility1, _curUnit);
+        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility1);
     private void Ability1Execute(InputAction.CallbackContext context) =>
         _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility1);
 
     private void Ability2Activate(InputAction.CallbackContext context) =>
-        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility2, _curUnit);
+        _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility2);
     private void Ability2Execute(InputAction.CallbackContext context) =>
         _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility1);
 
     private void InteractActivate(InputAction.CallbackContext context) =>
-        _abilityCaster.TryActivateAbility((int)AbilityType.Interact, _curUnit);
+        _abilityCaster.TryActivateAbility((int)AbilityType.Interact);
     private void InteractReleased(InputAction.CallbackContext context) =>
         _abilityCaster.ReleaseAbility((int)AbilityType.Interact);
 
