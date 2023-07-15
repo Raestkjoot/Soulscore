@@ -9,7 +9,8 @@ namespace AbilitySystem
         [SerializeField] private string description;
         [SerializeField] private float castTime;
         [SerializeField] private float cooldown;
-        [SerializeField] public bool isImmediate { get; }
+        [SerializeField] private bool isImmediate;
+        public bool IsImmediate() { return isImmediate; }
 
         [SerializeField] private TargetType targetType;
         public TargetType GetTargetType()

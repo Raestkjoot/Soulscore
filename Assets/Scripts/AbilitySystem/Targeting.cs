@@ -19,6 +19,11 @@ public class Targeting : MonoBehaviour
         throw new NotImplementedException();
     }
 
+    public void CancelTargeting()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Target (Material vfxMaterial, float range)
     { }
 

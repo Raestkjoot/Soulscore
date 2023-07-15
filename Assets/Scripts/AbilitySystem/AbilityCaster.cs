@@ -28,7 +28,7 @@ namespace AbilitySystem
             }
             else if (CanActivateAbility(abilityID))
             {
-                if (abilities[abilityID].isImmediate)
+                if (abilities[abilityID].IsImmediate())
                     ExecuteAbilityImmediate(abilityID);
                 else
                     ActivateAbility(abilityID);
@@ -54,8 +54,8 @@ namespace AbilitySystem
                 return false;
             }
 
-            // check cooldownHistory
-            // check attributes (resources)
+            // TODO: check cooldownHistory
+            // TODO: check attributes (resources)
 
             return true;
         }
@@ -67,9 +67,13 @@ namespace AbilitySystem
 
         private void ActivateAbility(int abilityID)
         {
+            curActiveAbility = (AbilityType)abilityID;
+
+            // TODO: activate appropriate targeting type
             switch (abilities[abilityID].GetTargetType())
             {
                 case TargetType.Self:
+                    // self target abilities are always immediate, might enforce this through editor scripts later
                     ExecuteAbility(abilityID);
                     break;
                 case TargetType.Target:
@@ -85,23 +89,25 @@ namespace AbilitySystem
         // Commits reources/cooldowns etc. ActivateAbility() must call this!
         private void CommitAbility(int abilityID)
         {
-            // add timestamp to cooldownHistory
-            // subtract resources from attributes (might just let this be an effect)
+            // TODO: add timestamp to cooldownHistory
+            // TODO: subtract resources from attributes (might just let this be an effect)
         }
 
         private void ExecuteAbility(int abilityID)
         {
-            // check target, if target is null for a target ability -> end ability
-            // if target is null for aoe type ability -> execute anyway
+            // TODO:
+            // - check target, if target is null for a target ability -> end ability
+            // - if target is null for aoe type ability -> execute anyway
             CommitAbility(abilityID);
             abilities[abilityID].Execute(_sourceUnit, _sourceUnit);
         }
 
         private void ExecuteAbilityImmediate(int abilityID)
         {
-            // find target
-            // call ExecuteAbility with the target
-            throw new NotImplementedException();
+            // TODO: 
+            // - find target
+            // - call ExecuteAbility with the target
+            ExecuteAbility(abilityID);
         }
 
         private void CancelCurAbility(int abilityID)
