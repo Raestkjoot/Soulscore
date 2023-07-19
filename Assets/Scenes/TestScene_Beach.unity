@@ -876,6 +876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes: {fileID: 665984773}
   abilitySystemComponent: {fileID: 665984767}
+  statusEffect: 0
 --- !u!114 &665984767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,7 +893,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: 259317a58715d7f439c184c02bfaddcf, type: 2}
   - {fileID: 11400000, guid: 0629bdb5251127d4083f83643df16796, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2a562648f1a66ec4ca1a3247f59ccf85, type: 2}
 --- !u!50 &665984768
 Rigidbody2D:
   serializedVersion: 4
@@ -1766,6 +1767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes: {fileID: 1399706924}
   abilitySystemComponent: {fileID: 0}
+  statusEffect: 0
 --- !u!114 &1399706922
 MonoBehaviour:
   m_ObjectHideFlags: 0

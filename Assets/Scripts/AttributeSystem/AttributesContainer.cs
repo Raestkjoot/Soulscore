@@ -40,5 +40,13 @@ namespace AttributeSystem
                 attr.AddModifierForDuration(modifier, duration);
             }
         }
+
+        public void ApplyModifier(EAttribute name, AttributeModifier modifier)
+        {
+            if (_attributes.TryGetValue(name, out Attribute attr))
+            {
+                attr.AddModifier(modifier);
+            }
+        }
     } 
 }

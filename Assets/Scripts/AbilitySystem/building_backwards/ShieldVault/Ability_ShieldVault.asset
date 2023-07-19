@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0975251ffdf4a9c4c938351b0cfcf360, type: 3}
+  m_Name: Ability_ShieldVault
+  m_EditorClassIdentifier: 
+  _name: ShieldVault
+  _description: Leap on a target, stunning and damaging them.
+  _cooldown: 13
+  _castTime: 0
+  _isImmediate: 0
+  _effects:
+  - {fileID: 11400000, guid: aff4410b69cb3fc4ca3582d6f411ef12, type: 2}
+  _hasSecondaryEffects: 1
+  _waitUntilSecondaryEffects: 0.2
+  _secondaryEffects:
+  - {fileID: 11400000, guid: 1a59a9ec06a730c4ea81e6ef398043ea, type: 2}
+  - {fileID: 11400000, guid: fb9e89386f603684fb40c809609d4d76, type: 2}
+  _range: 10

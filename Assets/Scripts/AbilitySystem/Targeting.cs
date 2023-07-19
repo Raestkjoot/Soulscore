@@ -16,33 +16,22 @@ public class Targeting : MonoBehaviour
     //public <T> GetTargetFromActiveTargeting<T>(float range) {}
     //    return (T)GetTargetFromTargetingType(curActiveTargetType, range);
 
-//=>
-//GetTargetFromTargetingType(curActiveTargetType, range);
+    //=>
+    //GetTargetFromTargetingType(curActiveTargetType, range);
 
-    public T GetTargetFromActiveTargeting<T>(float range /*declare as Output object*/)
-    {
-        if (GetTargetFromTargetingType(curActiveTargetType, range) is T target)
-        {
-            return target;
-        }
-        return default(T);
-    }
+    public T GetTargetFromActiveTargeting<T>(float range) =>
+        GetTargetFromTargetingType<T>(curActiveTargetType, range);
 
-public Unit GetTargetFromTargetingType(TargetType targetType, float range)
+    public T GetTargetFromTargetingType<T>(TargetType targetType, float range)
     {
         switch (targetType)
         {
             case TargetType.Target:
-                return GetTarget_Target(range);
-            case TargetType.Direction:
-                GetTarget_Direction();
-                return null;
-            case TargetType.Cone:
-                return GetTarget_Cone();
-            case TargetType.SelfAOE:
-                return GetTarget_SelfAOE();
+                if (GetTarget_Target(range) is T target)
+                    return target;
+                return default(T);
             default:
-                return null;
+                return default(T);
         }
     }
 
@@ -67,7 +56,7 @@ public Unit GetTargetFromTargetingType(TargetType targetType, float range)
         return;
     }
 
-    public void CancelActiveTargeting()
+    public void HideTargetingIndicators()
     {
         rangeIndicator.SetActive(false);
         directionIndicator.SetActive(false);

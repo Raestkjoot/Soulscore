@@ -30,6 +30,11 @@ namespace AttributeSystem
             return _curValue;
         }
 
+        public void AddModifier(AttributeModifier modifier)
+        {
+            _modifiers.Add(modifier);
+        }
+
         public async void AddModifierForDuration(AttributeModifier modifier, float duration)
         {
             _modifiers.Add(modifier);

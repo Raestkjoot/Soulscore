@@ -11,6 +11,9 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private AbilityCaster abilitySystemComponent;
 
+    // just testing for now
+    public EStatusEffect statusEffect;
+
     private ILogr _logger;
     private IMovementGenerator _movementGenerator;
 
@@ -57,6 +60,8 @@ public class Unit : MonoBehaviour
         _friction = friction;
 
         // calculate max duration
+        // TODO: friction = 0, only worry about duration?
+        // TODO: what about -friction (acceleration)? and do we need epsilon or is that abstracted away?
         _forceDuration = Mathf.Clamp(forceDuration, 0.01f, _force / _friction);
         ApplyFriction();
     }

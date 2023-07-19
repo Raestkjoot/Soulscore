@@ -70,6 +70,11 @@ namespace AbilitySystem
         {
             _curActiveAbility = (AbilityType)abilityID;
 
+            if (_abilities[abilityID] is Ability_Target abilityTarget)
+            {
+                _targeting.ActivateIndicators_Target(abilityTarget.GetRange());
+            }
+
             // TODO: activate targeting for abilities where relevant.
         }
 
@@ -87,9 +92,16 @@ namespace AbilitySystem
             // - if target is null for aoe type ability -> execute anyway
             CommitAbility(abilityID);
 
-            if (_abilities[abilityID] is AbilitySelfTarget abilitySelfTarget)
+            if (_abilities[abilityID] is Ability_SelfTarget abilitySelfTarget)
             {
                 abilitySelfTarget.Execute(_sourceUnit);
+            }
+            else if (_abilities[abilityID] is Ability_Target abilityTarget)
+            {
+                _targeting.HideTargetingIndicators();
+                Unit target = _targeting.GetTargetFromActiveTargeting<Unit>(abilityTarget.GetRange());
+                if (target != null)
+                    abilityTarget.Execute(_sourceUnit, target);
             }
 
             // TODO: implement execute call for each type of ability
@@ -107,7 +119,7 @@ namespace AbilitySystem
         private void CancelCurAbility(int abilityID)
         {
             _curActiveAbility = AbilityType.None;
-            _targeting.CancelActiveTargeting();
+            _targeting.HideTargetingIndicators();
         }
 
         private void Awake()
