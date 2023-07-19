@@ -7,6 +7,7 @@ using AttributeSystem;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private AttributesContainer attributes;
+    public AttributesContainer GetAttributes() { return attributes; }
 
     [SerializeField] private AbilityCaster abilitySystemComponent;
 

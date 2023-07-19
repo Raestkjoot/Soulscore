@@ -10,7 +10,7 @@ public class AbilitySystemComponentEditor : Editor
 
     void OnEnable()
     {
-        abilities = serializedObject.FindProperty("abilities");
+        abilities = serializedObject.FindProperty("_abilities");
     }
     public override void OnInspectorGUI()
     {

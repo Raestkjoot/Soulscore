@@ -1,9 +1,6 @@
-using UnityEditor.Timeline.Actions;
-using UnityEngine;
-
 namespace AttributeSystem
 {
-    public class AttributeModifier : MonoBehaviour
+    public class AttributeModifier
     {
         public float Magnitude { get; set; }
         public EModifierType ModifierType { get; set; }

@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     private void Ability2Activate(InputAction.CallbackContext context) =>
         _abilityCaster.TryActivateAbility((int)AbilityType.SpecialAbility2);
     private void Ability2Execute(InputAction.CallbackContext context) =>
-        _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility1);
+        _abilityCaster.ReleaseAbility((int)AbilityType.SpecialAbility2);
 
     private void InteractActivate(InputAction.CallbackContext context) =>
         _abilityCaster.TryActivateAbility((int)AbilityType.Interact);
@@ -117,11 +117,6 @@ public class PlayerController : MonoBehaviour
         _interact.Enable();
         _interact.performed += InteractActivate;
         _interact.canceled += InteractReleased;
-    }
-
-    private void _ability2_canceled(InputAction.CallbackContext obj)
-    {
-        throw new System.NotImplementedException();
     }
 
     private void OnDisable()

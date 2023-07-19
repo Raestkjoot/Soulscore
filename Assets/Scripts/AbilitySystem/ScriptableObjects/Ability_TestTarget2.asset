@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c67f925cd4fe941918d868fc1651e7, type: 3}
-  m_Name: UnitAttributes
+  m_Script: {fileID: 11500000, guid: c2eb38bff72d83d4f9f2ffa6328e235d, type: 3}
+  m_Name: Ability_TestTarget2
   m_EditorClassIdentifier: 
-  _initAttributes:
-  - _name: 0
-    _baseValue: 5
-  - _name: 1
-    _baseValue: 100
-  - _name: 4
-    _baseValue: 8
-  - _name: 5
-    _baseValue: 6
-  - _name: 6
-    _baseValue: 0
+  name: 
+  description: 
+  castTime: 0
+  cooldown: 0
+  isImmediate: 0
+  range: 8
+  targetType: 2
+  effects:
+  - {fileID: 11400000, guid: def94860f81e72a41847a61d95f7370b, type: 2}

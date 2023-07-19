@@ -9,17 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c67f925cd4fe941918d868fc1651e7, type: 3}
-  m_Name: UnitAttributes
+  m_Script: {fileID: 11500000, guid: d4cf34758247a434eb2c9d6493c3d426, type: 3}
+  m_Name: DashEffect
   m_EditorClassIdentifier: 
-  _initAttributes:
-  - _name: 0
-    _baseValue: 5
-  - _name: 1
-    _baseValue: 100
-  - _name: 4
-    _baseValue: 8
-  - _name: 5
-    _baseValue: 6
-  - _name: 6
-    _baseValue: 0

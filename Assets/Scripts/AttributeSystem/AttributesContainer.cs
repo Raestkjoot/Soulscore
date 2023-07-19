@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace AttributeSystem
 {
-    [CreateAssetMenu(fileName = "NewAttributesContainer", menuName = "AttributesSystem/AttributesContainer")]
-    public class AttributesContainer : ScriptableObject
+    public class AttributesContainer : MonoBehaviour
     {
         [SerializeField]
         private Attribute[] _initAttributes;
@@ -18,11 +17,9 @@ namespace AttributeSystem
 
             foreach (Attribute attribute in _initAttributes)
             {
-                attribute.SetCurValueToBaseValue();
+                attribute.Initialize();
                 _attributes.Add(attribute.GetName(), attribute);
             }
-
-
         }
 
         public float GetAttributeCurValue(EAttribute name)
@@ -34,6 +31,14 @@ namespace AttributeSystem
 
             _logger.Warn(string.Format("Attribute ({0}) not found!", name));
             return 0;
+        }
+
+        public void ApplyModifierForDuration(EAttribute name, AttributeModifier modifier, float duration)
+        {
+            if (_attributes.TryGetValue(name, out Attribute attr))
+            {
+                attr.AddModifierForDuration(modifier, duration);
+            }
         }
     } 
 }

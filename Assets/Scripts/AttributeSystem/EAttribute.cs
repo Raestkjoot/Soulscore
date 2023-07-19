@@ -5,5 +5,9 @@ namespace AttributeSystem
         MovementSpeed,
         Health,
         AttackDamage,
+        AbilityDamage,
+        Armor,
+        MagicResist,
+        Shield
     }
 }

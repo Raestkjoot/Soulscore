@@ -6,15 +6,14 @@ using UnityEngine;
 
 namespace AbilitySystem
 {
-    [RequireComponent(typeof(Targeting))]
+    // TODO: use input manager so we don't hardcode the hardware.
     [RequireComponent(typeof(Unit))]
     public class AbilityCaster : MonoBehaviour
     {
         // four abilities: (EAbilityType) 0:basicAttack, 1:dash, 2:ability1, 3:ability2
-        [SerializeField] private Ability[] abilities = new Ability[4];
+        [SerializeField] private Ability[] _abilities = new Ability[4];
 
-        private AbilityType curActiveAbility = AbilityType.None;
-
+        private AbilityType _curActiveAbility = AbilityType.None;
         private Targeting _targeting;
         private Unit _sourceUnit;
         private ILogr _logger;
@@ -22,13 +21,16 @@ namespace AbilitySystem
         // Attempts to activate the ability
         public void TryActivateAbility(int abilityID)
         {
-            if (abilityID == (int)AbilityType.Interact)
+            if (abilityID == (int)AbilityType.Interact ||
+                _curActiveAbility != AbilityType.None)
             {
                CancelCurAbility(abilityID);
             }
-            else if (CanActivateAbility(abilityID))
+            
+            if (abilityID != (int)AbilityType.Interact &&
+                CanActivateAbility(abilityID))
             {
-                if (abilities[abilityID].IsImmediate())
+                if (_abilities[abilityID].IsImmediate())
                     ExecuteAbilityImmediate(abilityID);
                 else
                     ActivateAbility(abilityID);
@@ -38,17 +40,16 @@ namespace AbilitySystem
         public void ReleaseAbility(int abilityID)
         {
             // Execute ability
-            if (abilityID == (int)curActiveAbility)
+            if (abilityID == (int)_curActiveAbility)
             {
                 ExecuteAbility(abilityID);
+                _curActiveAbility = AbilityType.None;
             }
-            curActiveAbility = AbilityType.None;
         }
 
-        // const function to see if ability is activatable
         public bool CanActivateAbility(int abilityID)
         {
-            if (abilities[abilityID] == null)
+            if (_abilities[abilityID] == null)
             {
                 _logger.Warn($"No ability at ability ID {abilityID}");
                 return false;
@@ -67,23 +68,9 @@ namespace AbilitySystem
 
         private void ActivateAbility(int abilityID)
         {
-            curActiveAbility = (AbilityType)abilityID;
+            _curActiveAbility = (AbilityType)abilityID;
 
-            // TODO: activate appropriate targeting type
-            switch (abilities[abilityID].GetTargetType())
-            {
-                case TargetType.Self:
-                    // self target abilities are always immediate, might enforce this through editor scripts later
-                    ExecuteAbility(abilityID);
-                    break;
-                case TargetType.Target:
-                    // activate target targeting
-                   
-                    break;
-                default:
-                    // not yet implemented / something went wrong
-                    break;
-            }
+            // TODO: activate targeting for abilities where relevant.
         }
 
         // Commits reources/cooldowns etc. ActivateAbility() must call this!
@@ -99,7 +86,14 @@ namespace AbilitySystem
             // - check target, if target is null for a target ability -> end ability
             // - if target is null for aoe type ability -> execute anyway
             CommitAbility(abilityID);
-            abilities[abilityID].Execute(_sourceUnit, _sourceUnit);
+
+            if (_abilities[abilityID] is AbilitySelfTarget abilitySelfTarget)
+            {
+                abilitySelfTarget.Execute(_sourceUnit);
+            }
+
+            // TODO: implement execute call for each type of ability
+            // TODO: turn off targeting | _targeting.CancelActiveTargeting();
         }
 
         private void ExecuteAbilityImmediate(int abilityID)
@@ -112,14 +106,14 @@ namespace AbilitySystem
 
         private void CancelCurAbility(int abilityID)
         {
-            curActiveAbility = AbilityType.None;
-            // TODO: turn off targeting
+            _curActiveAbility = AbilityType.None;
+            _targeting.CancelActiveTargeting();
         }
 
         private void Awake()
         {
             _logger = new ConsoleLogger();
-            _targeting = gameObject.GetComponent<Targeting>();
+            _targeting = gameObject.GetComponentInChildren<Targeting>();
             _sourceUnit = gameObject.GetComponent<Unit>();
         }
     } 

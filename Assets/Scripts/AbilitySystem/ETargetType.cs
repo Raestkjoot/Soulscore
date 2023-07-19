@@ -5,8 +5,9 @@ namespace AbilitySystem
         Invalid,
         Self,
         Target,
-        Projectile,
+        Direction,
         Cone,
+        SelfAOE,
         //Position,
         //Direction, // projectile, but we could also make one for dashing / raycasting
         //SelfAOE,

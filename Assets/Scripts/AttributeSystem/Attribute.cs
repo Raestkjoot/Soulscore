@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace AttributeSystem
@@ -13,35 +14,40 @@ namespace AttributeSystem
         private float _baseValue;
 
         private float _curValue;
-        private List<AttributeModifier> _modifiers;
+        private List<AttributeModifier> _modifiers = new List<AttributeModifier>();
 
         public EAttribute GetName()
         {
             return _name;
         }
 
-        public void SetCurValueToBaseValue()
-        {
-            _curValue = _baseValue;
-        }
+        public void Initialize() =>
+            SetCurValueToBaseValue();
 
         public float GetCurValue()
         {
+            CalculateModifiers();
             return _curValue;
         }
 
-        public int AddModifier(AttributeModifier modifier)
+        public async void AddModifierForDuration(AttributeModifier modifier, float duration)
         {
             _modifiers.Add(modifier);
-            CalculateModifiers();
 
-            return _modifiers.Count;
+            await Task.Delay((int)(duration * 1000));
+
+            RemoveModifier(modifier);
         }
 
-        public void RemoveModifier(int id)
+        private void RemoveModifier(AttributeModifier modifier)
         {
-            _modifiers.RemoveAt(id);
+            _modifiers.Remove(modifier);
             CalculateModifiers();
+        }
+
+        private void SetCurValueToBaseValue()
+        {
+            _curValue = _baseValue;
         }
 
         private void CalculateModifiers()

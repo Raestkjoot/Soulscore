@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2eb38bff72d83d4f9f2ffa6328e235d, type: 3}
-  m_Name: Ability_TestTarget
+  m_Name: Ability_TestTarget3
   m_EditorClassIdentifier: 
   name: 
   description: 
   castTime: 0
   cooldown: 0
   isImmediate: 0
-  range: 4
-  width: 0.5
-  targetType: 3
+  range: 3
+  width: 2
+  targetType: 4
   effects:
   - {fileID: 11400000, guid: def94860f81e72a41847a61d95f7370b, type: 2}
