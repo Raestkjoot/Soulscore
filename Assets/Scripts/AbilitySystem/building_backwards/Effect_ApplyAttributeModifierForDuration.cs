@@ -22,7 +22,7 @@ namespace AbilitySystem
             AttributeModifier modifier = new AttributeModifier();
             modifier.Magnitude = _magnitude;
             modifier.ModifierType = _modifierType;
-            source.GetAttributes().ApplyModifierForDuration(_attribute, modifier, _duration);
+            target.GetAttributes().ApplyModifierForDuration(_attribute, modifier, _duration);
         }
     }
 }

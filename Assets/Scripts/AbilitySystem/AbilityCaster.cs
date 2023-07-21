@@ -74,6 +74,10 @@ namespace AbilitySystem
             {
                 _targeting.ActivateIndicators_Target(abilityTarget.GetRange());
             }
+            else if (_abilities[abilityID] is Ability_SelfAOE abilityCone) 
+            {
+                _targeting.ActivateIndicators_SelfAOE(abilityCone.GetRadius());
+            }
 
             // TODO: activate targeting for abilities where relevant.
         }
@@ -92,6 +96,7 @@ namespace AbilitySystem
             // - if target is null for aoe type ability -> execute anyway
             CommitAbility(abilityID);
 
+            // TODO: maybe use a private variable on the ability for the ETargetType so we can use a switch statement here
             if (_abilities[abilityID] is Ability_SelfTarget abilitySelfTarget)
             {
                 abilitySelfTarget.Execute(_sourceUnit);
@@ -102,6 +107,20 @@ namespace AbilitySystem
                 Unit target = _targeting.GetTargetFromActiveTargeting<Unit>(abilityTarget.GetRange());
                 if (target != null)
                     abilityTarget.Execute(_sourceUnit, target);
+            }
+            else if (_abilities[abilityID] is Ability_SelfAOE abilitySelfAOE)
+            {
+                _targeting.HideTargetingIndicators();
+                List<Unit> targets = _targeting.GetTarget_SelfAOE(abilitySelfAOE.GetRadius(), abilitySelfAOE.GetContactFilter());
+                if (targets.Any())
+                    abilitySelfAOE.Execute(_sourceUnit, targets);
+            }
+            else if (_abilities[abilityID] is Ability_Cone abilityCone)
+            {
+                _targeting.HideTargetingIndicators();
+                List<Unit> targets = _targeting.GetTarget_Cone(abilityCone.GetRadius(), abilityCone.GetMaxNormalAngle());
+                if (targets.Any())
+                    abilityCone.Execute(_sourceUnit, targets);
             }
 
             // TODO: implement execute call for each type of ability

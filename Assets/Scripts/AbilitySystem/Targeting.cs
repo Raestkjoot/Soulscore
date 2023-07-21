@@ -4,6 +4,7 @@ using UnityEditor.ShaderGraph;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SocialPlatforms;
+using static UnityEngine.GraphicsBuffer;
 
 public class Targeting : MonoBehaviour
 {
@@ -79,10 +80,11 @@ public class Targeting : MonoBehaviour
         directionIndicator.SetActive(true);
     }
 
-    public void ActivateIndicators_Cone(float range, float width) // TODO: Material vfxMaterial
+    public void ActivateIndicators_Cone(float radius, float maxNormalAngle) // TODO: Material vfxMaterial
     {
         curActiveTargetType = TargetType.Cone;
-        coneIndicator.transform.localScale = new Vector3(width, range, 1);
+        // TODO: an actual cone, maybe we just make our own mesh manually?
+        coneIndicator.transform.localScale = new Vector3(maxNormalAngle, radius, 1);
         coneIndicator.SetActive(true);
     }
 
@@ -122,16 +124,58 @@ public class Targeting : MonoBehaviour
         return transform.right;
     }
 
-    public Unit GetTarget_Cone ()
+    public List<Unit> GetTarget_Cone (float radius, float maxNormalAngle)
     {
-        // TODO: use cone hitbox / shape-casting
-        return null;
+        List<Collider2D> colliders = new List<Collider2D>();
+        List<Unit> targets = new List<Unit>();
+        // TODO: maybe use contact filter 2d for the angle
+
+        if (Physics2D.OverlapCircle(transform.position, radius, new ContactFilter2D().NoFilter(), colliders) > 0)
+        {
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider.TryGetComponent(out Unit target))
+                {
+                    Vector2 targetNormal = target.transform.position - transform.position;
+                    Vector3 cursorNormal = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+
+
+                    float normalAngle = Vector2.Angle(targetNormal, cursorNormal);
+                    
+                    if (normalAngle < maxNormalAngle)
+                    {
+                        targets.Add(target);
+                    }
+                }
+            }
+        }
+
+        return targets;
     }
 
-    public Unit GetTarget_SelfAOE ()
+    public List<Unit> GetTarget_SelfAOE (float radius, ContactFilter2D contactFilter)
     {
-        // TODO: use circle hitbox / shape-casting
-        return null;
+        // TODO: use circle hitbox?
+
+        List<Collider2D> colliders = new List<Collider2D>();
+        List<Unit> targets = new List<Unit>();
+        // might move this logic outside, so each ability can give their own contact filter
+        // this would basically make self aoe and cone the same thing, except cone might want to follow the cursor.
+        // we can also filter allies / enemies, etc.
+
+        if (Physics2D.OverlapCircle(transform.position, radius, contactFilter, colliders) > 0)
+        {
+            foreach (Collider2D collider in colliders)
+            {
+
+                if (collider.TryGetComponent(out Unit target))
+                {
+                    targets.Add(target);
+                }
+            }
+        }
+
+        return targets;
     }
 
     //PositionAOE (range, rangeOfAOE)
